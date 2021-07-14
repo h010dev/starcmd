@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkGrid" id="command">
+  <template class="StarcmdAppCommandView" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="row_spacing">20</property>
@@ -309,5 +309,5 @@ stackoverflow.com</property>
     <child>
       <placeholder/>
     </child>
-  </object>
+  </template>
 </interface>
