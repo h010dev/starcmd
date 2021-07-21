@@ -11,11 +11,6 @@ struct _StarcmdApp
 G_DEFINE_TYPE (StarcmdApp, starcmd_app, GTK_TYPE_APPLICATION);
 
 static void
-starcmd_app_init (StarcmdApp *app)
-{
-}
-
-static void
 starcmd_app_activate (GApplication *app)
 {
     StarcmdMainWindow *win;
@@ -25,9 +20,14 @@ starcmd_app_activate (GApplication *app)
 }
 
 static void
-starcmd_app_class_init (StarcmdAppClass *class)
+starcmd_app_class_init (StarcmdAppClass *klass)
 {
-    G_APPLICATION_CLASS (class)->activate = starcmd_app_activate;
+    G_APPLICATION_CLASS (klass)->activate = starcmd_app_activate;
+}
+
+static void
+starcmd_app_init (StarcmdApp *self)
+{
 }
 
 StarcmdApp *
