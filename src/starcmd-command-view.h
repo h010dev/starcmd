@@ -10,7 +10,10 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (StarcmdCommandView, starcmd_command_view, STARCMD, COMMAND_VIEW, GtkGrid)
 
-GtkWidget *starcmd_command_view_new (void);
+const gchar *starcmd_command_view_get_name (StarcmdCommandView *self);
+void         starcmd_command_view_set_name (StarcmdCommandView *self,
+                                            const gchar        *name);
+GtkWidget   *starcmd_command_view_new (void);
 
 G_END_DECLS
 
