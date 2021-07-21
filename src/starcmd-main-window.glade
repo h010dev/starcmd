@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="StarcmdAppWindow" parent="GtkApplicationWindow">
+  <template class="StarcmdMainWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="default_width">840</property>
     <property name="default_height">800</property>

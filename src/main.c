@@ -1,6 +1,6 @@
 #include <gtk/gtk.h>
 
-#include "starcmd.h"
+#include "starcmd-app.h"
 
 int
 main (int argc, char *argv[])

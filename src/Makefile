@@ -4,14 +4,14 @@ CFLAGS = $(shell $(PKGCONFIG) --cflags gtk+-3.0)
 LIBS = $(shell $(PKGCONFIG) --libs gtk+-3.0)
 GLIB_COMPILE_RESOURCES = $(shell $(PKGCONFIG) --variable=glib_compile_resources gio-2.0)
 
-SRC = main.c starcmd.c starcmdwin.c commandview.c
+SRC = main.c starcmd-app.c starcmd-main-window.c starcmd-command-view.c
 BUILT_SRC = resources.c
 
 OBJS = $(BUILT_SRC:.c=.o) $(SRC:.c=.o)
 
 all: starcmd 
 
-resources.c: starcmd.gresource.xml window.glade
+resources.c: starcmd.gresource.xml starcmd-main-window.glade starcmd-command-view.glade
 	$(GLIB_COMPILE_RESOURCES) starcmd.gresource.xml --target=$@ --sourcedir=. --generate-source
 
 %.o: %.c

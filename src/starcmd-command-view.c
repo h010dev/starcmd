@@ -1,29 +1,29 @@
 #include <gtk/gtk.h>
 
-#include "commandview.h"
+#include "starcmd-command-view.h"
 
-struct _StarcmdAppCommandView
+struct _StarcmdCommandView
 {
     GtkApplicationWindow parent;
 };
 
 // https://github.com/elboulangero/goodvibes/blob/master/src/ui/gv-playlist-view.c
-G_DEFINE_TYPE (StarcmdAppCommandView, starcmd_app_command_view, GTK_TYPE_GRID);
+G_DEFINE_TYPE (StarcmdCommandView, starcmd_command_view, GTK_TYPE_GRID);
 
 static void
-starcmd_app_command_view_init (StarcmdAppCommandView *view)
+starcmd_command_view_init (StarcmdCommandView *view)
 {
     gtk_widget_init_template (GTK_WIDGET (view));
 }
 
 static void
-starcmd_app_command_view_class_init (StarcmdAppCommandViewClass *class)
+starcmd_command_view_class_init (StarcmdCommandViewClass *class)
 {
-    gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class), "/org/h010dev/starcmd/command.glade");
+    gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class), "/org/h010dev/starcmd/starcmd-command-view.glade");
 }
 
 GtkWidget *
-starcmd_app_command_view_new (void)
+starcmd_command_view_new (void)
 {
 
     /*
@@ -34,5 +34,5 @@ starcmd_app_command_view_new (void)
     g_object_unref (builder);
     return cmd;
     */
-    return g_object_new (STARCMD_APP_COMMAND_VIEW_TYPE, NULL);
+    return g_object_new (STARCMD_TYPE_COMMAND_VIEW, NULL);
 }
