@@ -2,6 +2,8 @@ CC ?= gcc
 PKGCONFIG = $(shell which pkg-config)
 CFLAGS = $(shell $(PKGCONFIG) --cflags gtk+-3.0)
 LIBS = $(shell $(PKGCONFIG) --libs gtk+-3.0)
+LDFLAGS = -lsqlite3 
+INC = -I/usr/include/sqlite3
 GLIB_COMPILE_RESOURCES = $(shell $(PKGCONFIG) --variable=glib_compile_resources gio-2.0)
 
 SRC = main.c starcmd-app.c starcmd-main-window.c starcmd-command-view.c
@@ -18,7 +20,7 @@ resources.c: starcmd.gresource.xml starcmd-main-window.glade starcmd-command-vie
 	$(CC) -c -o $(@F) $(CFLAGS) $<
 
 starcmd: $(OBJS)
-	$(CC) -o $(@F) $(OBJS) $(LIBS)
+	$(CC) -o $(@F) $(OBJS) $(LIBS) $(LDFLAGS) $(INC)
 
 clean:
 	rm -f $(BUILT_SRC)
