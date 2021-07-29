@@ -44,19 +44,24 @@ static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-main-window.gl
 
 G_DEFINE_TYPE_WITH_PRIVATE (StarcmdMainWindow, starcmd_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
-/* METHOD DEFINITIONS */
-
 typedef struct CommandNode
 {
     GtkWidget           *command;
     struct CommandNode  *next;
 } CommandNode_t;
 
-int
+/* METHOD DEFINITIONS */
+
+static int
 load_commands (sqlite3 *db, CommandNode_t **commands)
 {
-    int rc;
+    int           rc;
     sqlite3_stmt *res;
+
+    /************************************************************************************************************
+     * Default mode is to sort commands by name in ascending order. SQL query needs to sort names in descending *
+     * order so that the final linked list is in ascending order (as new commands are inserted at head).        *
+     ************************************************************************************************************/
     if ( (rc = sqlite3_prepare_v2 (db, "SELECT * FROM commands ORDER BY name DESC;", -1, &res, 0)) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
@@ -72,105 +77,105 @@ load_commands (sqlite3 *db, CommandNode_t **commands)
             return 1;
 
         int columns;
-        if ( (columns = sqlite3_column_count (res)) < 1)
+        if ( (columns = sqlite3_column_count (res)) < 11)          /* table must have 11 cols min */
         {
             fprintf(stderr, "Column count failed\n");
             return 1;
         }
 
+        // Create a new CommandView object and populate its fields
         GtkWidget *cmd = starcmd_command_view_new ();
         for (int i = 0; i < columns; i++)
         {
             const char *col_name = sqlite3_column_name (res, i);
             if (strcmp (col_name, "id") == 0)
-                ;
+                ; /* acknowledge id field but we don't need it for widget */
             else if (strcmp (col_name, "name") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "name", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "name", &val);
             }
             else if (strcmp (col_name, "platform") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "platform", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "platform", &val);
             }
             else if (strcmp (col_name, "os") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "os", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "os", &val);
             }
             else if (strcmp (col_name, "description") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "description", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "description", &val);
             }
             else if (strcmp (col_name, "command") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "commands", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "commands", &val);
             }
             else if (strcmp (col_name, "examples") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "examples", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "examples", &val);
             }
             else if (strcmp (col_name, "refs") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "references", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "references", &val);
             }
             else if (strcmp (col_name, "datemod") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "datemod", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "datemod", &val);
             }
             else if (strcmp (col_name, "icon") == 0)
             {
-                GValue name = G_VALUE_INIT;
-                g_value_init (&name, G_TYPE_STRING);
-                g_value_set_string (&name, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "icon", &name);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "icon", &val);
             }
             else if (strcmp (col_name, "fav") == 0)
             {
-                GValue fav = G_VALUE_INIT;
-                g_value_init (&fav, G_TYPE_BOOLEAN);
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_BOOLEAN);
                 if (sqlite3_column_int (res, i) == 1)
-                    g_value_set_boolean (&fav, TRUE);
+                    g_value_set_boolean (&val, TRUE);
                 else
-                    g_value_set_boolean (&fav, FALSE);
-                g_object_set_property (G_OBJECT (cmd), "favorite", &fav);
+                    g_value_set_boolean (&val, FALSE);
+                g_object_set_property (G_OBJECT (cmd), "favorite", &val);
             }
             else
             {
                 fprintf(stderr, "Invalid column name: %s\n", col_name);
                 return 1;
             }
-
             printf("%s = %s\n", col_name, sqlite3_column_text (res, i));
         }
+        printf("\n");
 
+        // Insert new command widget at head
         new_node->command = cmd;
         new_node->next = *commands;
         *commands = new_node;
-
-        printf("\n");
     }
 
     sqlite3_finalize (res);
@@ -184,6 +189,7 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
     sqlite3                  *db;
     char                     *err_msg = 0;
 
+    // Connect to database
     if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
@@ -191,6 +197,7 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
         return;
     }
 
+    // Load commands & create widgets
     CommandNode_t *commands = NULL;
     commands = (CommandNode_t *) malloc (sizeof (CommandNode_t));
     commands->next = NULL;
@@ -201,6 +208,7 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
         return;
     }
 
+    // Populate main window with command widgets
     int i = 0;
     CommandNode_t *curr = commands;
     while (curr != NULL)
@@ -216,6 +224,9 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
         i++;
     }
     gtk_widget_show_all (priv->grid_commands);
+
+    free (commands);
+    free (curr);
 }
 
 static void
