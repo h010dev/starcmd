@@ -25,6 +25,7 @@
 #include "starcmd-app.h"
 #include "starcmd-main-window.h"
 #include "starcmd-command-view.h"
+#include "starcmd-command-window.h"
 
 /* GOBJECT DEFINITION */
 
@@ -38,9 +39,11 @@ typedef struct _StarcmdMainWindowPrivate StarcmdMainWindowPrivate;
 struct _StarcmdMainWindowPrivate
 {
     GtkWidget *grid_commands;
+    GtkWidget *menubtn_new;
 };
 
 static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-main-window.glade";
+gboolean activated = FALSE;
 
 G_DEFINE_TYPE_WITH_PRIVATE (StarcmdMainWindow, starcmd_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
@@ -51,6 +54,8 @@ typedef struct CommandNode
 } CommandNode_t;
 
 /* METHOD DEFINITIONS */
+
+void on_menubtn_new_activate (GtkMenuItem *m);
 
 static int
 load_commands (sqlite3 *db, CommandNode_t **commands)
@@ -229,10 +234,24 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
     free (curr);
 }
 
+void
+on_menubtn_new_activate (GtkMenuItem *m)
+{
+    if (!activated)
+    {
+        StarcmdCommandWindow *win = starcmd_command_window_new ();
+        gtk_window_present (GTK_WINDOW (win));
+        activated = TRUE;
+    }
+    else
+        activated = FALSE;
+}
+
 static void
 starcmd_main_window_class_init (StarcmdMainWindowClass *klass)
 {
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), RESOURCE_PATH);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, menubtn_new);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, grid_commands);
 }
 
@@ -240,6 +259,8 @@ static void
 starcmd_main_window_init (StarcmdMainWindow *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
+    StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
+    g_signal_connect (priv->menubtn_new, "activate", G_CALLBACK (on_menubtn_new_activate), NULL);
     starcmd_main_window_populate_widgets (self);
 }
 
