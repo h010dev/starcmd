@@ -240,6 +240,7 @@ on_menubtn_new_activate (GtkMenuItem *m)
     if (!activated)
     {
         StarcmdCommandWindow *win = starcmd_command_window_new ();
+        starcmd_command_window_set_id (win, -1);
         gtk_window_present (GTK_WINDOW (win));
         activated = TRUE;
     }
