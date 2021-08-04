@@ -2,6 +2,22 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkTextBuffer" id="buffer_commands">
+    <signal name="changed" handler="on_buffer_commands_changed" swapped="no"/>
+  </object>
+  <object class="GtkTextBuffer" id="buffer_description">
+    <signal name="changed" handler="on_buffer_description_changed" swapped="no"/>
+  </object>
+  <object class="GtkTextBuffer" id="buffer_examples">
+    <signal name="changed" handler="on_buffer_examples_changed" swapped="no"/>
+  </object>
+  <object class="GtkEntryBuffer" id="buffer_name"/>
+  <object class="GtkEntryBuffer" id="buffer_os"/>
+  <object class="GtkEntryBuffer" id="buffer_platform"/>
+  <object class="GtkTextBuffer" id="buffer_references">
+    <signal name="changed" handler="on_buffer_references_changed" swapped="no"/>
+  </object>
+  <object class="GtkEntryBuffer" id="buffer_tags"/>
   <template class="StarcmdCommandWindow" parent="GtkWindow">
     <property name="can_focus">False</property>
     <property name="destroy_with_parent">True</property>
@@ -155,6 +171,9 @@
                 <property name="width_request">350</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="buffer">buffer_name</property>
+                <property name="placeholder_text" translatable="yes">The name of this command</property>
+                <signal name="changed" handler="on_textentry_name_changed" object="buffer_name" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -165,6 +184,9 @@
               <object class="GtkEntry" id="textentry_platform">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="buffer">buffer_platform</property>
+                <property name="placeholder_text" translatable="yes">The target platform for this command</property>
+                <signal name="changed" handler="on_textentry_platform_changed" object="buffer_platform" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -175,6 +197,9 @@
               <object class="GtkEntry" id="textentry_os">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="buffer">buffer_os</property>
+                <property name="placeholder_text" translatable="yes">The target OS for this command</property>
+                <signal name="changed" handler="on_textentry_os_changed" object="buffer_os" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -192,9 +217,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkTextView" id="tv_description">
+                      <object class="GtkTextView" id="textview_description">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="buffer">buffer_description</property>
                       </object>
                     </child>
                   </object>
@@ -219,6 +245,7 @@
                       <object class="GtkTextView" id="textview_commands">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="buffer">buffer_commands</property>
                       </object>
                     </child>
                   </object>
@@ -243,6 +270,7 @@
                       <object class="GtkTextView" id="textview_examples">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="buffer">buffer_examples</property>
                       </object>
                     </child>
                   </object>
@@ -267,6 +295,7 @@
                       <object class="GtkTextView" id="textview_references">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="buffer">buffer_references</property>
                       </object>
                     </child>
                   </object>
@@ -281,6 +310,9 @@
               <object class="GtkEntry" id="textentry_tags">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="buffer">buffer_tags</property>
+                <property name="placeholder_text" translatable="yes">Tags for quick lookup</property>
+                <signal name="changed" handler="on_textentry_tags_changed" object="buffer_tags" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -391,6 +423,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btn_save_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
