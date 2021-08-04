@@ -62,6 +62,10 @@ const gchar    *starcmd_command_view_get_refs     (StarcmdCommandView *self);
 void            starcmd_command_view_set_refs     (StarcmdCommandView *self,
                                                    const gchar        *refs);
 
+const gchar    *starcmd_command_view_get_tags     (StarcmdCommandView *self);
+void            starcmd_command_view_set_tags     (StarcmdCommandView *self,
+                                                   const gchar        *tags);
+
 const gchar    *starcmd_command_view_get_datemod  (StarcmdCommandView *self);
 void            starcmd_command_view_set_datemod  (StarcmdCommandView *self,
                                                    const gchar        *datemod);

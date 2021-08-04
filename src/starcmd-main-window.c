@@ -144,6 +144,13 @@ load_commands (sqlite3 *db, CommandNode_t **commands)
                 g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
                 g_object_set_property (G_OBJECT (cmd), "references", &val);
             }
+            else if (strcmp (col_name, "tags") == 0)
+            {
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
+                g_object_set_property (G_OBJECT (cmd), "tags", &val);
+            }
             else if (strcmp (col_name, "datemod") == 0)
             {
                 GValue val = G_VALUE_INIT;

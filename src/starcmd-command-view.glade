@@ -243,6 +243,8 @@ stackoverflow.com</property>
     </child>
     <child>
       <object class="GtkImage" id="img_cmd_icon">
+        <property name="width_request">25</property>
+        <property name="height_request">25</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="stock">gtk-missing-image</property>
@@ -280,7 +282,17 @@ stackoverflow.com</property>
       </packing>
     </child>
     <child>
-      <placeholder/>
+      <object class="GtkLabel" id="lbl_cmd_tags_info">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">tag1; tag2; tag3;</property>
+        <property name="xalign">0.05000000074505806</property>
+        <property name="yalign">0.05000000074505806</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">7</property>
+      </packing>
     </child>
     <child>
       <placeholder/>

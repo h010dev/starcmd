@@ -47,6 +47,7 @@ struct _StarcmdCommandView
     gchar                *cmds;
     gchar                *exs;
     gchar                *refs;
+    gchar                *tags;
     gchar                *datemod;
     gchar                *icon;
     gboolean              fav;
@@ -57,6 +58,7 @@ struct _StarcmdCommandView
     GtkWidget            *lbl_cmd_cmds_info;
     GtkWidget            *lbl_cmd_exs_info;
     GtkWidget            *lbl_cmd_refs_info;
+    GtkWidget            *lbl_cmd_tags_info;
     GtkWidget            *lbl_cmd_datemod_info;
     GtkWidget            *img_cmd_icon;
     GtkWidget            *btn_fav;
@@ -78,6 +80,7 @@ enum {
     PROP_CMDS,
     PROP_EXS,
     PROP_REFS,
+    PROP_TAGS,
     PROP_DATEMOD,
     PROP_ICON,
     PROP_FAV,
@@ -117,6 +120,9 @@ starcmd_command_view_get_property (GObject    *object,
             break;
         case PROP_REFS:
             g_value_set_string (value, starcmd_command_view_get_refs (self));
+            break;
+        case PROP_TAGS:
+            g_value_set_string (value, starcmd_command_view_get_tags (self));
             break;
         case PROP_DATEMOD:
             g_value_set_string (value, starcmd_command_view_get_datemod (self));
@@ -159,6 +165,9 @@ starcmd_command_view_set_property (GObject      *object,
             break;
         case PROP_REFS:
             starcmd_command_view_set_refs (self, g_value_get_string (value));
+            break;
+        case PROP_TAGS:
+            starcmd_command_view_set_tags (self, g_value_get_string (value));
             break;
         case PROP_DATEMOD:
             starcmd_command_view_set_datemod (self, g_value_get_string (value));
@@ -231,6 +240,13 @@ starcmd_command_view_class_init (StarcmdCommandViewClass *klass)
                              NULL,
                              (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
+    properties [PROP_TAGS] =
+        g_param_spec_string ("tags",
+                             "Tags",
+                             "Filter tags for categorizing commands",
+                             NULL,
+                             (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
     properties [PROP_DATEMOD] =
         g_param_spec_string ("datemod", /* NOTE: Can't have underscores in canonical name param */
                              "Datemod",
@@ -262,6 +278,7 @@ starcmd_command_view_class_init (StarcmdCommandViewClass *klass)
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_cmds_info);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_exs_info);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_refs_info);
+    gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_tags_info);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_datemod_info);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, img_cmd_icon);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, btn_fav);
@@ -340,6 +357,12 @@ const gchar *
 starcmd_command_view_get_refs (StarcmdCommandView *self)
 {
     return self->refs;
+}
+
+const gchar *
+starcmd_command_view_get_tags (StarcmdCommandView *self)
+{
+    return self->tags;
 }
 
 const gchar *
@@ -447,6 +470,18 @@ starcmd_command_view_set_refs (StarcmdCommandView *self,
 }
 
 void
+starcmd_command_view_set_tags (StarcmdCommandView *self,
+                               const gchar        *tags)
+{
+    if (g_strcmp0 (tags, self->tags) == 0) {
+        g_free (self->tags);
+        self->tags = g_strdup (tags);
+    }
+
+    gtk_label_set_text (GTK_LABEL (self->lbl_cmd_tags_info), tags);
+}
+
+void
 starcmd_command_view_set_datemod (StarcmdCommandView *self,
                                   const gchar        *datemod)
 {
@@ -466,8 +501,8 @@ starcmd_command_view_set_icon (StarcmdCommandView *self,
         g_free (self->icon);
         self->icon = g_strdup (icon);
     }
-
-    // Assign icon by path
+    gtk_image_set_from_file (GTK_IMAGE (self->img_cmd_icon), icon);
+    gtk_image_set_pixel_size (GTK_IMAGE (self->img_cmd_icon), (gint) 25);
 }
 
 void
