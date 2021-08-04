@@ -65,6 +65,8 @@ struct _StarcmdCommandView
 
 G_DEFINE_TYPE (StarcmdCommandView, starcmd_command_view, GTK_TYPE_GRID);
 
+static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-command-view.glade";
+
 /* PROPERTIES */
 
 enum {
@@ -81,8 +83,6 @@ enum {
     PROP_FAV,
     LAST_PROP
 };
-
-static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-command-view.glade";
 
 static GParamSpec *properties [LAST_PROP];
 
@@ -247,10 +247,10 @@ starcmd_command_view_class_init (StarcmdCommandViewClass *klass)
 
     properties [PROP_FAV] =
         g_param_spec_boolean ("favorite",
-                             "Favorite",
-                             "Whether or not command is favorited by user",
-                             FALSE,
-                             (G_PARAM_READWRITE));
+                              "Favorite",
+                              "Whether or not command is favorited by user",
+                              FALSE,
+                              (G_PARAM_READWRITE));
 
     g_object_class_install_properties (object_class, LAST_PROP, properties);
 
@@ -283,9 +283,11 @@ starcmd_command_view_dispose (GObject *object)
 }
 
 static void
-starcmd_command_view_finalize (GObject *gobject)
+starcmd_command_view_finalize (GObject *object)
 {
-    G_OBJECT_CLASS (starcmd_command_view_parent_class)->finalize (gobject);
+    StarcmdCommandView *self = STARCMD_COMMAND_VIEW (object); 
+
+    G_OBJECT_CLASS (starcmd_command_view_parent_class)->finalize (object);
 }
 
 /* PUBLIC METHOD DEFINITIONS */
