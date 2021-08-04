@@ -9,7 +9,8 @@ CREATE TABLE commands (
   command     varchar(4096) not null,
   examples    varchar(4096) null,
   refs        varchar(4096) null,
-  datemod     datetime      not null,
+  tags        varchar(255)  null,
+  datemod     varchar(256)  not null,
   icon        varchar(255)  null,
   fav         int           default 0
 );
