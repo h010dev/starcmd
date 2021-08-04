@@ -6,14 +6,14 @@ LDFLAGS = -lsqlite3
 INC = -I/usr/include/sqlite3
 GLIB_COMPILE_RESOURCES = $(shell $(PKGCONFIG) --variable=glib_compile_resources gio-2.0)
 
-SRC = main.c starcmd-app.c starcmd-main-window.c starcmd-command-view.c starcmd-command-window.c
+SRC = main.c starcmd-app.c starcmd-main-window.c starcmd-command-view.c starcmd-command-window.c starcmd-image-search-window.c
 BUILT_SRC = resources.c
 
 OBJS = $(BUILT_SRC:.c=.o) $(SRC:.c=.o)
 
 all: starcmd 
 
-resources.c: starcmd.gresource.xml starcmd-main-window.glade starcmd-command-view.glade starcmd-command-window.glade
+resources.c: starcmd.gresource.xml starcmd-main-window.glade starcmd-command-view.glade starcmd-command-window.glade starcmd-image-search-window.glade
 	$(GLIB_COMPILE_RESOURCES) starcmd.gresource.xml --target=$@ --sourcedir=. --generate-source
 
 %.o: %.c
