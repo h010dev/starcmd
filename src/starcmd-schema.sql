@@ -1,7 +1,7 @@
 -- tables
 -- Table: commands
 CREATE TABLE commands (
-  id          int           not null primary key,
+  id          integer       primary key autoincrement,
   name        varchar(255)  not null,
   platform    varchar(255)  not null,
   os          varchar(255)  null,
