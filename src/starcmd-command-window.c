@@ -24,6 +24,7 @@
 
 #include "starcmd-command-window.h"
 #include "starcmd-main-window.h"
+#include "starcmd-image-search-window.h"
 
 /* INTERNAL DECLARATIONS */
 
@@ -198,7 +199,8 @@ on_btn_browse_clicked (GtkButton *btn)
 void
 on_btn_download_clicked (GtkButton *btn)
 {
-    printf ("download btn clicked\n");
+    StarcmdImageSearchWindow *win = starcmd_image_search_window_new ();
+    gtk_window_present (GTK_WINDOW (win));
 }
 
 void
@@ -273,10 +275,17 @@ on_textentry_tags_changed (GtkEditable *editable, gpointer user_data)
     _StarcmdCommandWindowPrivate.tags = gtk_entry_buffer_get_text (buffer);
 }
 
+void
+on_btn_browse_file_set (GtkFileChooserButton *btn, gpointer user_data)
+{
+    const char *f_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (btn));
+    _StarcmdCommandWindowPrivate.icon = f_name;
+}
+
 /* HELPER METHODS */
 
 int
-load_command (void)
+load_command (sqlite3 *db)
 {
     return 0;
 }
@@ -287,8 +296,8 @@ save_command (sqlite3 *db)
     int rc;
     sqlite3_stmt *res;
 
-    char *sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, datemod, icon)"
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    char *sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, tags, datemod, icon)"
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
     {
@@ -297,8 +306,70 @@ save_command (sqlite3 *db)
         return 1;
     }
 
-    char *datemod = "today";
-    char *icon = "/img";
+    char datemod[256] = {0};
+    time_t rawtime = time (NULL);
+    if (rawtime == -1)
+    {
+        printf ("Failed to get date time: {time()}");
+        return 1;
+    }
+    struct tm *ptm = localtime (&rawtime);
+    if (ptm == NULL)
+    {
+        printf ("Failed to get date time: {localtime()}");
+        return 1;
+    }
+    strftime (datemod, 256, "%d/%m/%Y %T", ptm);
+
+    if (_StarcmdCommandWindowPrivate.name == NULL)
+    {
+        _StarcmdCommandWindowPrivate.name = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.platform == NULL)
+    {
+        _StarcmdCommandWindowPrivate.platform = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.os == NULL)
+    {
+        _StarcmdCommandWindowPrivate.os = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.description == NULL)
+    {
+        _StarcmdCommandWindowPrivate.description = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.commands == NULL)
+    {
+        _StarcmdCommandWindowPrivate.commands = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.examples == NULL)
+    {
+        _StarcmdCommandWindowPrivate.examples = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.references == NULL)
+    {
+        _StarcmdCommandWindowPrivate.references = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.tags == NULL)
+    {
+        _StarcmdCommandWindowPrivate.tags = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.datemod == NULL)
+    {
+        _StarcmdCommandWindowPrivate.datemod = "NULL";
+    }
+
+    if (_StarcmdCommandWindowPrivate.icon == NULL)
+    {
+        _StarcmdCommandWindowPrivate.icon = "NULL";
+    }
 
     sqlite3_bind_text (res, 1, _StarcmdCommandWindowPrivate.name, strlen (_StarcmdCommandWindowPrivate.name), SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 2, _StarcmdCommandWindowPrivate.platform, strlen (_StarcmdCommandWindowPrivate.platform), SQLITE_TRANSIENT);
@@ -307,9 +378,9 @@ save_command (sqlite3 *db)
     sqlite3_bind_text (res, 5, _StarcmdCommandWindowPrivate.commands, strlen (_StarcmdCommandWindowPrivate.commands), SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 6, _StarcmdCommandWindowPrivate.examples, strlen (_StarcmdCommandWindowPrivate.examples), SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 7, _StarcmdCommandWindowPrivate.references, strlen (_StarcmdCommandWindowPrivate.references), SQLITE_TRANSIENT);
-    //sqlite3_bind_text (res, 9, tags, strlen (tags), SQLITE_TRANSIENT);
-    sqlite3_bind_text (res, 8, datemod, strlen (datemod), SQLITE_TRANSIENT);
-    sqlite3_bind_text (res, 9, icon, strlen (icon), SQLITE_TRANSIENT);
+    sqlite3_bind_text (res, 8, _StarcmdCommandWindowPrivate.tags, strlen (_StarcmdCommandWindowPrivate.tags), SQLITE_TRANSIENT);
+    sqlite3_bind_text (res, 9, datemod, 256, SQLITE_TRANSIENT);
+    sqlite3_bind_text (res, 10, _StarcmdCommandWindowPrivate.icon, strlen (_StarcmdCommandWindowPrivate.icon), SQLITE_TRANSIENT);
     sqlite3_step (res);
     sqlite3_finalize (res);
 

@@ -55,6 +55,7 @@ void on_buffer_commands_changed    (GtkTextBuffer *textbuffer, gpointer user_dat
 void on_buffer_examples_changed    (GtkTextBuffer *textbuffer, gpointer user_data);
 void on_buffer_references_changed  (GtkTextBuffer *textbuffer, gpointer user_data);
 void on_textentry_tags_changed     (GtkEditable *editable, gpointer user_data);
+void on_btn_browse_file_set        (GtkFileChooserButton *btn, gpointer user_data);
 
 /* HELPER METHODS */
 int load_command (sqlite3 *db);

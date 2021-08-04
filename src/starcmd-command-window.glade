@@ -18,6 +18,12 @@
     <signal name="changed" handler="on_buffer_references_changed" swapped="no"/>
   </object>
   <object class="GtkEntryBuffer" id="buffer_tags"/>
+  <object class="GtkFileFilter" id="filter_image">
+    <mime-types>
+      <mime-type>image/jpeg</mime-type>
+      <mime-type>image/png</mime-type>
+    </mime-types>
+  </object>
   <template class="StarcmdCommandWindow" parent="GtkWindow">
     <property name="can_focus">False</property>
     <property name="destroy_with_parent">True</property>
@@ -343,11 +349,12 @@
                     <property name="spacing">5</property>
                     <property name="layout_style">start</property>
                     <child>
-                      <object class="GtkButton" id="btn_browse">
-                        <property name="label" translatable="yes">Browse</property>
+                      <object class="GtkFileChooserButton" id="btn_browse">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="filter">filter_image</property>
+                        <property name="title" translatable="yes"/>
+                        <signal name="file-set" handler="on_btn_browse_file_set" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -361,6 +368,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="on_btn_download_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -371,17 +379,6 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkImage" id="img_icon">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="stock">gtk-missing-image</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
