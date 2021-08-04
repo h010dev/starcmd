@@ -40,6 +40,7 @@ static void starcmd_command_view_finalize (GObject *object);
 struct _StarcmdCommandView
 {
     GtkApplicationWindow  parent;
+    int                   id;
     gchar                *name;
     gchar                *platform;
     gchar                *os;
@@ -73,6 +74,7 @@ static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-command-view.g
 
 enum {
     PROP_0,
+    PROP_ID,
     PROP_NAME,
     PROP_PLATFORM,
     PROP_OS,
@@ -100,6 +102,9 @@ starcmd_command_view_get_property (GObject    *object,
     StarcmdCommandView *self = (StarcmdCommandView *) object;
 
     switch (prop_id) {
+        case PROP_ID:
+            g_value_set_int (value, starcmd_command_view_get_id (self));
+            break;
         case PROP_NAME:
             g_value_set_string (value, starcmd_command_view_get_name (self));
             break;
@@ -145,6 +150,9 @@ starcmd_command_view_set_property (GObject      *object,
     StarcmdCommandView *self = (StarcmdCommandView *) object;
 
     switch (prop_id) {
+        case PROP_ID:
+            starcmd_command_view_set_id (self, g_value_get_int (value));
+            break;
         case PROP_NAME:
             starcmd_command_view_set_name (self, g_value_get_string (value));
             break;
@@ -190,6 +198,13 @@ starcmd_command_view_class_init (StarcmdCommandViewClass *klass)
     object_class->set_property = starcmd_command_view_set_property;
     object_class->dispose = starcmd_command_view_dispose;
     object_class->finalize = starcmd_command_view_finalize;
+
+    properties [PROP_ID] =
+        g_param_spec_string ("id",
+                             "ID",
+                             "The id of the command",
+                             NULL,
+                             (G_PARAM_READWRITE));
 
     properties [PROP_NAME] =
         g_param_spec_string ("name",
@@ -317,6 +332,12 @@ starcmd_command_view_new (void)
 
 /* GETTERS */
 
+int
+starcmd_command_view_get_id (StarcmdCommandView *self)
+{
+    return self->id;
+}
+
 const gchar *
 starcmd_command_view_get_name (StarcmdCommandView *self)
 {
@@ -384,6 +405,13 @@ starcmd_command_view_get_fav (StarcmdCommandView *self)
 }
 
 /* SETTERS */
+
+void
+starcmd_command_view_set_id (StarcmdCommandView *self,
+                             int                 id)
+{
+    self->id = id;
+}
 
 void
 starcmd_command_view_set_name (StarcmdCommandView *self,

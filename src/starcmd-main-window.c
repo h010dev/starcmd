@@ -94,7 +94,12 @@ load_commands (sqlite3 *db, CommandNode_t **commands)
         {
             const char *col_name = sqlite3_column_name (res, i);
             if (strcmp (col_name, "id") == 0)
-                ; /* acknowledge id field but we don't need it for widget */
+            {
+                GValue val = G_VALUE_INIT;
+                g_value_init (&val, G_TYPE_INT);
+                g_value_set_int (&val, sqlite3_column_int (res, i));
+                g_object_set_property (G_OBJECT (cmd), "id", &val);
+            }
             else if (strcmp (col_name, "name") == 0)
             {
                 GValue val = G_VALUE_INIT;
