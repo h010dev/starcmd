@@ -122,7 +122,7 @@ on_btn_save_clicked (GtkButton *btn, gpointer user_data)
     int id = atoi (gtk_label_get_text (GTK_LABEL (user_data)));  /* user data passed in is the value of lbl_id */
 
     // Connect to database
-    if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
+    if (sqlite3_open ("../data/starcmd-demo.db", &db) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
         sqlite3_close (db);
@@ -143,7 +143,7 @@ on_btn_delete_clicked (GtkButton *btn, gpointer user_data)
     int id = atoi (gtk_label_get_text (GTK_LABEL (user_data)));  /* user data passed in is the value of lbl_id */
 
     // Connect to database
-    if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
+    if (sqlite3_open ("../data/starcmd-demo.db", &db) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
         sqlite3_close (db);
@@ -457,7 +457,7 @@ starcmd_command_window_populate_widgets (StarcmdCommandWindow *self, int id)
     int      err = 0;
 
     // Connect to database
-    if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
+    if (sqlite3_open ("../data/starcmd-demo.db", &db) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
         sqlite3_close (db);

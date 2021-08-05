@@ -23,7 +23,7 @@
 #define STARCMD_MAIN_WINDOW_H
 
 #include <gtk/gtk.h>
-#include "starcmd-app.h"
+#include "../starcmd-app.h"
 
 G_BEGIN_DECLS
 

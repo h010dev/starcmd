@@ -22,7 +22,7 @@
 #include <gtk/gtk.h>
 
 #include "starcmd-app.h"
-#include "starcmd-main-window.h"
+#include "ui/starcmd-main-window.h"
 
 /* GOBJECT DEFINITION */
 

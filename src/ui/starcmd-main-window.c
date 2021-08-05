@@ -22,7 +22,7 @@
 #include <gtk/gtk.h>
 #include <sqlite3/sqlite3.h>
 
-#include "starcmd-app.h"
+#include "../starcmd-app.h"
 #include "starcmd-main-window.h"
 #include "starcmd-command-view.h"
 #include "starcmd-command-window.h"
@@ -212,7 +212,7 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
     char                     *err_msg = 0;
 
     // Connect to database
-    if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
+    if (sqlite3_open ("../data/starcmd-demo.db", &db) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
         sqlite3_close (db);
