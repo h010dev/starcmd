@@ -32,17 +32,17 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (StarcmdCommandWindow, starcmd_command_window, STARCMD, COMMAND_WINDOW, GtkWindow)
 
+/* STRUCTS */
+
 struct _StarcmdCommandWindow
 {
-    GtkWindow  parent;
+    GtkWindow           parent;
 };
 
-StarcmdCommandWindow *starcmd_command_window_new (void);
+/* PUBLIC METHODS */
 
-/* GETTERS AND SETTERS */
-int  starcmd_command_window_get_id (StarcmdCommandWindow *self);
-void starcmd_command_window_set_id (StarcmdCommandWindow *self,
-                                    int                   id);
+StarcmdCommandWindow *starcmd_command_window_new              (void);
+void                  starcmd_command_window_populate_widgets (StarcmdCommandWindow *self, int id);
 
 /* CALLBACK HANDLERS */
 void on_btn_cancel_clicked         (GtkButton *btn, StarcmdCommandWindow *self);
@@ -58,8 +58,9 @@ void on_textentry_tags_changed     (GtkEditable *editable, gpointer user_data);
 void on_btn_browse_file_set        (GtkFileChooserButton *btn, gpointer user_data);
 
 /* HELPER METHODS */
-int load_command (sqlite3 *db);
-int save_command (sqlite3 *db);
+int load_command   (StarcmdCommandWindow *self, sqlite3 *db);
+int save_command   (sqlite3 *db, int id);
+int delete_command (sqlite3 *db, int id);
 
 G_END_DECLS
 

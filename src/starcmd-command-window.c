@@ -41,6 +41,17 @@ struct _StarcmdCommandWindowPrivate
     GtkWidget       *btn_save;
     GtkWidget       *btn_browse;
     GtkWidget       *btn_download;
+    GtkWidget       *lbl_id;
+    GtkWidget       *buffer_name;
+    GtkWidget       *buffer_platform;
+    GtkWidget       *buffer_os;
+    GtkWidget       *buffer_description;
+    GtkWidget       *buffer_commands;
+    GtkWidget       *buffer_examples;
+    GtkWidget       *buffer_references;
+    GtkWidget       *buffer_tags;
+    GtkWidget       *lbl_datemod_info;
+    int              id;
     const char      *name;
     const char      *platform;
     const char      *os;
@@ -59,85 +70,22 @@ G_DEFINE_TYPE_WITH_PRIVATE (StarcmdCommandWindow, starcmd_command_window, GTK_TY
 
 static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-command-window.glade";
 
-/* PROPERTIES */
-
-enum {
-    PROP_0,
-    PROP_ID,
-    LAST_PROP
-};
-
-static GParamSpec *properties [LAST_PROP];
-
-enum {
-    SAVE_CMD,
-    LAST_SIGNAL
-};
-
-static guint signals [LAST_SIGNAL];
-
 /* METHOD DEFINITIONS */
-
-static void
-starcmd_command_window_get_property (GObject    *object,
-                                     guint       prop_id,
-                                     GValue     *value,
-                                     GParamSpec *pspec)
-{
-    StarcmdCommandWindow *self = (StarcmdCommandWindow *) object;
-
-    switch (prop_id)
-    {
-        case PROP_ID:
-            g_value_set_int (value, starcmd_command_window_get_id (self));
-            break;
-    }
-}
-
-static void
-starcmd_command_window_set_property (GObject          *object,
-                                     guint             prop_id,
-                                     const GValue     *value,
-                                     GParamSpec       *pspec)
-{
-    StarcmdCommandWindow *self = (StarcmdCommandWindow *) object;
-
-    switch (prop_id)
-    {
-        case PROP_ID:
-            starcmd_command_window_set_id (self, (int) g_value_get_int (value));
-            break;
-    }
-}
 
 static void
 starcmd_command_window_class_init (StarcmdCommandWindowClass *klass)
 {
-    GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-    object_class->get_property = starcmd_command_window_get_property;
-    object_class->set_property = starcmd_command_window_set_property;
-    object_class->dispose = starcmd_command_window_dispose;
-    object_class->finalize = starcmd_command_window_finalize;
-
-    properties [PROP_ID] =
-        g_param_spec_int ("id",
-                          "ID",
-                          "The command's unique identifier",
-                          -1, 10000, 0,
-                          (G_PARAM_READWRITE));
-
-    g_object_class_install_properties (object_class, LAST_PROP, properties);
-
-    signals [SAVE_CMD] =
-        g_signal_new ("save_cmd",
-                      G_TYPE_FROM_CLASS (klass),
-                      G_SIGNAL_RUN_LAST,
-                      0,
-                      NULL, NULL, NULL,
-                      G_TYPE_NONE, 0);
-
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), RESOURCE_PATH);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, lbl_id);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_name);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_platform);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_os);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_description);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_commands);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_examples);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_references);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_tags);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, lbl_datemod_info);
 }
 
 static void
@@ -167,10 +115,11 @@ starcmd_command_window_finalize (GObject *object)
 void
 on_btn_save_clicked (GtkButton *btn, gpointer user_data)
 {
-
     sqlite3 *db;
     char    *err_msg = 0;
     int      err = 0;
+
+    int id = atoi (gtk_label_get_text (GTK_LABEL (user_data)));  /* user data passed in is the value of lbl_id */
 
     // Connect to database
     if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
@@ -180,14 +129,29 @@ on_btn_save_clicked (GtkButton *btn, gpointer user_data)
         return;
     }
 
-    err = save_command (db);
+    err = save_command (db, id);
     sqlite3_close (db);
 }
 
 void
-on_btn_cancel_clicked (GtkButton *btn, StarcmdCommandWindow *self)
+on_btn_delete_clicked (GtkButton *btn, gpointer user_data)
 {
-    g_signal_emit (self, signals[SAVE_CMD], 0);
+    sqlite3 *db;
+    char    *err_msg = 0;
+    int      err = 0;
+
+    int id = atoi (gtk_label_get_text (GTK_LABEL (user_data)));  /* user data passed in is the value of lbl_id */
+
+    // Connect to database
+    if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
+    {
+        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
+        sqlite3_close (db);
+        return;
+    }
+
+    err = delete_command (db, id);
+    sqlite3_close (db);
 }
 
 void
@@ -285,19 +249,70 @@ on_btn_browse_file_set (GtkFileChooserButton *btn, gpointer user_data)
 /* HELPER METHODS */
 
 int
-load_command (sqlite3 *db)
-{
-    return 0;
-}
-
-int
-save_command (sqlite3 *db)
+load_command (StarcmdCommandWindow *self, sqlite3 *db)
 {
     int rc;
     sqlite3_stmt *res;
 
-    char *sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, tags, datemod, icon)"
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    char *sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod "
+                "FROM commands "
+                "WHERE id = ?";
+
+    if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
+    {
+        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
+        sqlite3_close (db);
+        return 1;
+    }
+
+    StarcmdCommandWindowPrivate *priv = starcmd_command_window_get_instance_private (self);
+
+    sqlite3_bind_int (res, 1, priv->id);
+
+    int step;
+    if ( (step = sqlite3_step (res)) == SQLITE_ROW)
+    {
+        const gchar *name = (const gchar *) sqlite3_column_text (res, 0);
+        const gchar *platform = (const gchar *) sqlite3_column_text (res, 1);
+        const gchar *os = (const gchar *) sqlite3_column_text (res, 2);
+        const gchar *description = (const gchar *) sqlite3_column_text (res, 3);
+        const gchar *commands = (const gchar *) sqlite3_column_text (res, 4);
+        const gchar *examples = (const gchar *) sqlite3_column_text (res, 5);
+        const gchar *references = (const gchar *) sqlite3_column_text (res, 6);
+        const gchar *tags = (const gchar *) sqlite3_column_text (res, 7);
+        const gchar *datemod = (const gchar *) sqlite3_column_text (res, 8);
+
+        gtk_entry_buffer_set_text (GTK_ENTRY_BUFFER (priv->buffer_name), name, strlen (name));
+        gtk_entry_buffer_set_text (GTK_ENTRY_BUFFER (priv->buffer_platform), platform, strlen (platform)); 
+        gtk_entry_buffer_set_text (GTK_ENTRY_BUFFER (priv->buffer_os), os, strlen (os)); 
+        gtk_text_buffer_set_text (GTK_TEXT_BUFFER (priv->buffer_description), commands, strlen (commands));
+        gtk_text_buffer_set_text (GTK_TEXT_BUFFER (priv->buffer_commands), commands, strlen (commands)); 
+        gtk_text_buffer_set_text (GTK_TEXT_BUFFER (priv->buffer_examples), examples, strlen (examples)); 
+        gtk_text_buffer_set_text (GTK_TEXT_BUFFER (priv->buffer_references), references, strlen (references)); 
+        gtk_entry_buffer_set_text (GTK_ENTRY_BUFFER (priv->buffer_tags), tags, strlen (tags)); 
+        gtk_label_set_text (GTK_LABEL (priv->lbl_datemod_info), datemod);
+    }
+    sqlite3_finalize (res);
+
+    return 0;
+}
+
+int
+save_command (sqlite3 *db, int id)
+{
+    int rc;
+    sqlite3_stmt *res;
+    char *sql;
+
+    printf ("ID = %d\n", id);
+
+    if (id > 0)
+        sql = "UPDATE commands " 
+              "SET name = ?, platform = ?, os = ?, description = ?, command = ?, examples = ?, refs = ?, tags = ?, datemod = ?, icon = ? "
+              "WHERE id = ?";
+    else
+        sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, tags, datemod, icon)"
+              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
     {
@@ -381,6 +396,10 @@ save_command (sqlite3 *db)
     sqlite3_bind_text (res, 8, _StarcmdCommandWindowPrivate.tags, strlen (_StarcmdCommandWindowPrivate.tags), SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 9, datemod, 256, SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 10, _StarcmdCommandWindowPrivate.icon, strlen (_StarcmdCommandWindowPrivate.icon), SQLITE_TRANSIENT);
+
+    if (id > 0)
+        sqlite3_bind_int (res, 11, id);
+
     sqlite3_step (res);
     sqlite3_finalize (res);
 
@@ -394,8 +413,25 @@ edit_command (void)
 }
 
 int
-delete_command (void)
+delete_command (sqlite3 *db, int id)
 {
+    int rc;
+    sqlite3_stmt *res;
+
+    char *sql = "DELETE FROM commands "
+                "WHERE id = ?";
+
+    if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
+    {
+        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
+        sqlite3_close (db);
+        return 1;
+    }
+
+    sqlite3_bind_int (res, 1, id);
+    sqlite3_step (res);
+    sqlite3_finalize (res);
+
     return 0;
 }
 
@@ -407,21 +443,28 @@ starcmd_command_window_new (void)
     return g_object_new (STARCMD_TYPE_COMMAND_WINDOW, NULL);
 }
 
-/* GETTERS */
-
-int
-starcmd_command_window_get_id (StarcmdCommandWindow *self)
-{
-    return 0;
-    //return self->id;
-}
-
-/* SETTERS */
-
 void
-starcmd_command_window_set_id (StarcmdCommandWindow *self,
-                               int                   id)
+starcmd_command_window_populate_widgets (StarcmdCommandWindow *self, int id)
 {
-    
-   // self->id = id; 
+    StarcmdCommandWindowPrivate *priv = starcmd_command_window_get_instance_private (self);
+    char id_char[100];
+    sprintf (id_char, "%d", id);
+    gtk_label_set_text (GTK_LABEL (priv->lbl_id), id_char);
+    priv->id = id;
+
+    sqlite3 *db;
+    char    *err_msg = 0;
+    int      err = 0;
+
+    // Connect to database
+    if (sqlite3_open ("starcmd-demo.db", &db) != SQLITE_OK)
+    {
+        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
+        sqlite3_close (db);
+        return;
+    }
+
+    err = load_command (self, db);
+    sqlite3_close (db);
 }
+
