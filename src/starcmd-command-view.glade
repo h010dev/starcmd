@@ -235,6 +235,7 @@ stackoverflow.com</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
         <property name="valign">start</property>
+        <signal name="clicked" handler="on_btn_edit_clicked" object="lbl_cmd_id" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">2</property>
@@ -295,7 +296,14 @@ stackoverflow.com</property>
       </packing>
     </child>
     <child>
-      <placeholder/>
+      <object class="GtkLabel" id="lbl_cmd_id">
+        <property name="can_focus">False</property>
+        <property name="no_show_all">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">9</property>
+      </packing>
     </child>
     <child>
       <placeholder/>

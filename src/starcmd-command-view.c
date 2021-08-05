@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 
 #include "starcmd-command-view.h"
+#include "starcmd-command-window.h"
 
 /* INTERNAL DECLARATIONS */
 
@@ -40,7 +41,7 @@ static void starcmd_command_view_finalize (GObject *object);
 struct _StarcmdCommandView
 {
     GtkApplicationWindow  parent;
-    int                   id;
+    gchar                *id;
     gchar                *name;
     gchar                *platform;
     gchar                *os;
@@ -52,6 +53,7 @@ struct _StarcmdCommandView
     gchar                *datemod;
     gchar                *icon;
     gboolean              fav;
+    GtkWidget            *lbl_cmd_id;
     GtkWidget            *lbl_cmd_name_info;
     GtkWidget            *lbl_cmd_platform_info;
     GtkWidget            *lbl_cmd_os_info;
@@ -66,7 +68,13 @@ struct _StarcmdCommandView
     GtkWidget            *btn_edit;
 };
 
-G_DEFINE_TYPE (StarcmdCommandView, starcmd_command_view, GTK_TYPE_GRID);
+typedef struct _StarcmdCommandViewPrivate StarcmdCommandViewPrivate;
+
+struct _StarcmdCommandViewPrivate
+{
+} _StarcmdCommandViewPrivate;
+
+G_DEFINE_TYPE_WITH_PRIVATE (StarcmdCommandView, starcmd_command_view, GTK_TYPE_GRID);
 
 static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-command-view.glade";
 
@@ -103,7 +111,7 @@ starcmd_command_view_get_property (GObject    *object,
 
     switch (prop_id) {
         case PROP_ID:
-            g_value_set_int (value, starcmd_command_view_get_id (self));
+            g_value_set_string (value, starcmd_command_view_get_id (self));
             break;
         case PROP_NAME:
             g_value_set_string (value, starcmd_command_view_get_name (self));
@@ -151,7 +159,7 @@ starcmd_command_view_set_property (GObject      *object,
 
     switch (prop_id) {
         case PROP_ID:
-            starcmd_command_view_set_id (self, g_value_get_int (value));
+            starcmd_command_view_set_id (self, g_value_get_string (value));
             break;
         case PROP_NAME:
             starcmd_command_view_set_name (self, g_value_get_string (value));
@@ -204,7 +212,7 @@ starcmd_command_view_class_init (StarcmdCommandViewClass *klass)
                              "ID",
                              "The id of the command",
                              NULL,
-                             (G_PARAM_READWRITE));
+                             (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     properties [PROP_NAME] =
         g_param_spec_string ("name",
@@ -286,6 +294,7 @@ starcmd_command_view_class_init (StarcmdCommandViewClass *klass)
     g_object_class_install_properties (object_class, LAST_PROP, properties);
 
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), RESOURCE_PATH);
+    gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_id);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_name_info);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_platform_info);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (klass), StarcmdCommandView, lbl_cmd_os_info);
@@ -332,7 +341,7 @@ starcmd_command_view_new (void)
 
 /* GETTERS */
 
-int
+const gchar *
 starcmd_command_view_get_id (StarcmdCommandView *self)
 {
     return self->id;
@@ -408,9 +417,14 @@ starcmd_command_view_get_fav (StarcmdCommandView *self)
 
 void
 starcmd_command_view_set_id (StarcmdCommandView *self,
-                             int                 id)
+                             const gchar        *id)
 {
-    self->id = id;
+    if (g_strcmp0 (id, self->id) == 0) {
+        g_free (self->id);
+        self->id = g_strdup (id);
+    }
+
+    gtk_label_set_text (GTK_LABEL (self->lbl_cmd_id), id);
 }
 
 void
@@ -540,4 +554,18 @@ starcmd_command_view_set_fav (StarcmdCommandView *self,
     self->fav = fav;
 
     // Highlight/un-highlight fav icon
+}
+
+/* CALLBACK HANDLERS */
+
+void
+on_btn_edit_clicked (GtkButton *btn, gpointer user_data)
+{
+    GtkLabel *lbl = GTK_LABEL (user_data);          /* user_data is the label holding the command's id */
+    const char *id = gtk_label_get_text (lbl);
+    int id_int = atoi (id);
+    StarcmdCommandWindow *win = starcmd_command_window_new ();
+    gtk_window_present (GTK_WINDOW (win));
+
+    starcmd_command_window_populate_widgets (win, id_int);
 }

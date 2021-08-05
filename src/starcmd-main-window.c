@@ -95,9 +95,14 @@ load_commands (sqlite3 *db, CommandNode_t **commands)
             const char *col_name = sqlite3_column_name (res, i);
             if (strcmp (col_name, "id") == 0)
             {
+                // convert int id to char array
+                int id = sqlite3_column_int (res, i); 
+                char id_char[100];
+                sprintf (id_char, "%d", id);
+
                 GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_INT);
-                g_value_set_int (&val, sqlite3_column_int (res, i));
+                g_value_init (&val, G_TYPE_STRING);
+                g_value_set_string (&val, id_char);
                 g_object_set_property (G_OBJECT (cmd), "id", &val);
             }
             else if (strcmp (col_name, "name") == 0)
@@ -252,7 +257,6 @@ on_menubtn_new_activate (GtkMenuItem *m)
     if (!activated)
     {
         StarcmdCommandWindow *win = starcmd_command_window_new ();
-        starcmd_command_window_set_id (win, -1);
         gtk_window_present (GTK_WINDOW (win));
         activated = TRUE;
     }

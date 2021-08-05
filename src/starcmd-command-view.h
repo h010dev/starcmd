@@ -34,9 +34,9 @@ G_DECLARE_FINAL_TYPE (StarcmdCommandView, starcmd_command_view, STARCMD, COMMAND
 GtkWidget      *starcmd_command_view_new (void);
 
 /* GETTERS AND SETTERS */
-int             starcmd_command_view_get_id       (StarcmdCommandView *self);
+const gchar    *starcmd_command_view_get_id       (StarcmdCommandView *self);
 void            starcmd_command_view_set_id       (StarcmdCommandView *self,
-                                                   int                 id);
+                                                   const gchar        *id);
 
 const gchar    *starcmd_command_view_get_name     (StarcmdCommandView *self);
 void            starcmd_command_view_set_name     (StarcmdCommandView *self,
