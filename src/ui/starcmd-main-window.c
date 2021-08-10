@@ -38,8 +38,12 @@ typedef struct _StarcmdMainWindowPrivate StarcmdMainWindowPrivate;
 
 struct _StarcmdMainWindowPrivate
 {
-    GtkWidget *grid_commands;
-    GtkWidget *menubtn_new;
+    GtkTreeStore      *tstore_commands;
+    GtkTreeView       *tv_commands;
+    GtkTreeViewColumn *tvcol_key;
+    GtkCellRenderer   *tvrow_key;
+    GtkTreeViewColumn *tvcol_value;
+    GtkCellRenderer   *tvrow_value;
 };
 
 static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-main-window.glade";
@@ -49,7 +53,18 @@ G_DEFINE_TYPE_WITH_PRIVATE (StarcmdMainWindow, starcmd_main_window, GTK_TYPE_APP
 
 typedef struct CommandNode
 {
-    GtkWidget           *command;
+    guint                id;
+    const char          *name;
+    const char          *platform;
+    const gchar         *os;
+    const gchar         *description;
+    const gchar         *command; 
+    const gchar         *examples;
+    const gchar         *references;
+    const gchar         *tags;
+    const gchar         *datemod;
+    const gchar         *icon_path;
+    gboolean             fav;
     struct CommandNode  *next;
 } CommandNode_t;
 
@@ -58,21 +73,23 @@ typedef struct CommandNode
 void on_menubtn_new_activate (GtkMenuItem *m);
 
 static int
-load_commands (sqlite3 *db, CommandNode_t **commands)
+load_commands (StarcmdMainWindow *self, sqlite3 *db, CommandNode_t **commands)
 {
     int           rc;
     sqlite3_stmt *res;
+    StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
 
-    /************************************************************************************************************
-     * Default mode is to sort commands by name in ascending order. SQL query needs to sort names in descending *
-     * order so that the final linked list is in ascending order (as new commands are inserted at head).        *
-     ************************************************************************************************************/
     if ( (rc = sqlite3_prepare_v2 (db, "SELECT * FROM commands ORDER BY name DESC;", -1, &res, 0)) != SQLITE_OK)
     {
         fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
         sqlite3_close (db);
         return 1;
     }
+
+    GtkTreeIter iter;
+    GtkTreeIter iter_child;
+    gtk_tree_view_column_add_attribute (priv->tvcol_key, priv->tvrow_key, "text", 0);
+    gtk_tree_view_column_add_attribute (priv->tvcol_value, priv->tvrow_value, "text", 1);
 
     // Iterate through table rows and create command widget with field data from each column.
     while (sqlite3_step (res) == SQLITE_ROW)
@@ -94,113 +111,96 @@ load_commands (sqlite3 *db, CommandNode_t **commands)
         {
             const char *col_name = sqlite3_column_name (res, i);
             if (strcmp (col_name, "id") == 0)
-            {
-                // convert int id to char array
-                int id = sqlite3_column_int (res, i); 
-                char id_char[100];
-                sprintf (id_char, "%d", id);
-
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, id_char);
-                g_object_set_property (G_OBJECT (cmd), "id", &val);
-            }
+                new_node->id = sqlite3_column_int (res, i);
             else if (strcmp (col_name, "name") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "name", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter, NULL);
+                gtk_tree_store_set (priv->tstore_commands, &iter, 0, "Name", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->name = (const char *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "platform") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "platform", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Platform", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->platform = (const char *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "os") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "os", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Operating System", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->os = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "description") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "description", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Description", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->description = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "command") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "commands", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Command(s)", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->command = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "examples") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "examples", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Example(s)", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->examples = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "refs") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "references", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Reference(s)", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->references = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "tags") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "tags", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Tag(s)", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->tags = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "datemod") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "datemod", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Last Modified", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->datemod = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "icon") == 0)
             {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_STRING);
-                g_value_set_string (&val, (const gchar *) sqlite3_column_text (res, i));
-                g_object_set_property (G_OBJECT (cmd), "icon", &val);
+                gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Icon Path", -1);
+                gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, sqlite3_column_text (res, i), -1);
             }
+                //new_node->icon_path = (const gchar *) sqlite3_column_text (res, i);
             else if (strcmp (col_name, "fav") == 0)
-            {
-                GValue val = G_VALUE_INIT;
-                g_value_init (&val, G_TYPE_BOOLEAN);
-                if (sqlite3_column_int (res, i) == 1)
-                    g_value_set_boolean (&val, TRUE);
-                else
-                    g_value_set_boolean (&val, FALSE);
-                g_object_set_property (G_OBJECT (cmd), "favorite", &val);
-            }
+                new_node->fav = (gboolean) sqlite3_column_int (res, i);
             else
             {
                 fprintf(stderr, "Invalid column name: %s\n", col_name);
-                return 1;
+                continue;
             }
             printf("%s = %s\n", col_name, sqlite3_column_text (res, i));
         }
         printf("\n");
 
         // Insert new command widget at head
-        new_node->command = cmd;
         new_node->next = *commands;
         *commands = new_node;
     }
 
     sqlite3_finalize (res);
+
+    gtk_widget_show_all (GTK_WIDGET (priv->tv_commands));
     return 0;
 }
 
@@ -224,31 +224,39 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
     commands = (CommandNode_t *) malloc (sizeof (CommandNode_t));
     commands->next = NULL;
     int err;
-    if ( (err = load_commands (db, &commands)) == 1)
+    if ( (err = load_commands (self, db, &commands)) == 1)
     {
         fprintf (stderr, "Load commands failed\n");
         return;
     }
 
     // Populate main window with command widgets
-    int i = 0;
+    /*
+    GtkTreeIter iter;
+    GtkTreeIter iter_child;
+    gtk_tree_view_column_add_attribute (priv->tvcol_key, priv->tvrow_key, "text", 0);
+    gtk_tree_view_column_add_attribute (priv->tvcol_value, priv->tvrow_value, "text", 1);
     CommandNode_t *curr = commands;
     while (curr != NULL)
     {
         // Last node has no data
         if (curr->next != NULL)
         {
-            gtk_grid_insert_row (GTK_GRID (priv->grid_commands), i + 1);
-            GtkWidget *cmd = curr->command;
-            gtk_grid_attach (GTK_GRID (priv->grid_commands), cmd, 1, i + 1, 1, 1);
+            gtk_tree_store_append (priv->tstore_commands, &iter, NULL);
+            gtk_tree_store_set (priv->tstore_commands, &iter, 0, "Name", -1);
+            gtk_tree_store_set (priv->tstore_commands, &iter, 1, curr->name, -1);
+
+            gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+            gtk_tree_store_set (priv->tstore_commands, &iter_child, 0, "Platform", -1);
+            gtk_tree_store_set (priv->tstore_commands, &iter_child, 1, curr->platform, -1);
         }
         curr = curr->next;
-        i++;
     }
-    gtk_widget_show_all (priv->grid_commands);
+    gtk_widget_show_all (GTK_WIDGET (priv->tv_commands));
 
     free (commands);
     free (curr);
+    */
 }
 
 void
@@ -268,8 +276,12 @@ static void
 starcmd_main_window_class_init (StarcmdMainWindowClass *klass)
 {
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), RESOURCE_PATH);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, menubtn_new);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, grid_commands);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, tstore_commands);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, tv_commands);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, tvcol_key);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, tvrow_key);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, tvcol_value);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, tvrow_value);
 }
 
 static void
@@ -277,7 +289,7 @@ starcmd_main_window_init (StarcmdMainWindow *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
     StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
-    g_signal_connect (priv->menubtn_new, "activate", G_CALLBACK (on_menubtn_new_activate), NULL);
+    //g_signal_connect (priv->menubtn_new, "activate", G_CALLBACK (on_menubtn_new_activate), NULL);
     starcmd_main_window_populate_widgets (self);
 }
 
