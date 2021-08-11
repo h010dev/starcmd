@@ -51,7 +51,7 @@ struct _StarcmdCommandWindowPrivate
     GtkWidget       *buffer_references;
     GtkWidget       *buffer_tags;
     GtkWidget       *lbl_datemod_info;
-    int              id;
+    const char      *name_default;
     const char      *name;
     const char      *platform;
     const char      *os;
@@ -119,7 +119,7 @@ on_btn_save_clicked (GtkButton *btn, gpointer user_data)
     char    *err_msg = 0;
     int      err = 0;
 
-    int id = atoi (gtk_label_get_text (GTK_LABEL (user_data)));  /* user data passed in is the value of lbl_id */
+    StarcmdCommandWindow *self = STARCMD_COMMAND_WINDOW (user_data);
 
     // Connect to database
     if (sqlite3_open ("../data/starcmd-demo.db", &db) != SQLITE_OK)
@@ -129,7 +129,7 @@ on_btn_save_clicked (GtkButton *btn, gpointer user_data)
         return;
     }
 
-    err = save_command (db, id);
+    err = save_command (self, db);
     sqlite3_close (db);
 }
 
@@ -150,7 +150,7 @@ on_btn_delete_clicked (GtkButton *btn, gpointer user_data)
         return;
     }
 
-    err = delete_command (db, id);
+    //err = delete_command (db, id);
     sqlite3_close (db);
 }
 
@@ -256,7 +256,7 @@ load_command (StarcmdCommandWindow *self, sqlite3 *db)
 
     char *sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod "
                 "FROM commands "
-                "WHERE id = ?";
+                "WHERE name = ?";
 
     if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
     {
@@ -267,7 +267,7 @@ load_command (StarcmdCommandWindow *self, sqlite3 *db)
 
     StarcmdCommandWindowPrivate *priv = starcmd_command_window_get_instance_private (self);
 
-    sqlite3_bind_int (res, 1, priv->id);
+    sqlite3_bind_text (res, 1, priv->name_default, strlen (priv->name_default), SQLITE_TRANSIENT);
 
     int step;
     if ( (step = sqlite3_step (res)) == SQLITE_ROW)
@@ -298,18 +298,18 @@ load_command (StarcmdCommandWindow *self, sqlite3 *db)
 }
 
 int
-save_command (sqlite3 *db, int id)
+save_command (StarcmdCommandWindow *self, sqlite3 *db)
 {
     int rc;
     sqlite3_stmt *res;
     char *sql;
 
-    printf ("ID = %d\n", id);
+    StarcmdCommandWindowPrivate *priv = starcmd_command_window_get_instance_private (self);
 
-    if (id > 0)
+    if (priv->name_default != NULL)
         sql = "UPDATE commands " 
               "SET name = ?, platform = ?, os = ?, description = ?, command = ?, examples = ?, refs = ?, tags = ?, datemod = ?, icon = ? "
-              "WHERE id = ?";
+              "WHERE name = ?";
     else
         sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, tags, datemod, icon)"
               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -397,8 +397,8 @@ save_command (sqlite3 *db, int id)
     sqlite3_bind_text (res, 9, datemod, 256, SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 10, _StarcmdCommandWindowPrivate.icon, strlen (_StarcmdCommandWindowPrivate.icon), SQLITE_TRANSIENT);
 
-    if (id > 0)
-        sqlite3_bind_int (res, 11, id);
+    if (priv->name_default != NULL)
+        sqlite3_bind_text (res, 11, priv->name_default, strlen (priv->name_default), SQLITE_TRANSIENT);
 
     sqlite3_step (res);
     sqlite3_finalize (res);
@@ -412,6 +412,7 @@ edit_command (void)
     return 0;
 }
 
+/*
 int
 delete_command (sqlite3 *db, int id)
 {
@@ -434,6 +435,7 @@ delete_command (sqlite3 *db, int id)
 
     return 0;
 }
+*/
 
 /* PUBLIC METHOD DEFINITIONS */
 
@@ -444,13 +446,10 @@ starcmd_command_window_new (void)
 }
 
 void
-starcmd_command_window_populate_widgets (StarcmdCommandWindow *self, int id)
+starcmd_command_window_populate_widgets (StarcmdCommandWindow *self, char *name)
 {
     StarcmdCommandWindowPrivate *priv = starcmd_command_window_get_instance_private (self);
-    char id_char[100];
-    sprintf (id_char, "%d", id);
-    gtk_label_set_text (GTK_LABEL (priv->lbl_id), id_char);
-    priv->id = id;
+    priv->name_default = name;
 
     sqlite3 *db;
     char    *err_msg = 0;
