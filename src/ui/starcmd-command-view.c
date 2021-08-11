@@ -567,5 +567,5 @@ on_btn_edit_clicked (GtkButton *btn, gpointer user_data)
     StarcmdCommandWindow *win = starcmd_command_window_new ();
     gtk_window_present (GTK_WINDOW (win));
 
-    starcmd_command_window_populate_widgets (win, id_int);
+    //starcmd_command_window_populate_widgets (win, id_int);
 }
