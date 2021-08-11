@@ -79,6 +79,10 @@ static void
 starcmd_main_window_init (StarcmdMainWindow *self)
 {
     gtk_widget_init_template (GTK_WIDGET (self));
+    StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
+    gtk_tree_view_column_add_attribute (priv->tvcol_key, priv->tvrow_key, "text", KEY);
+    gtk_tree_view_column_add_attribute (priv->tvcol_value, priv->tvrow_value, "text", VALUE);
+
     starcmd_main_window_populate_widgets (self);
 }
 
@@ -166,6 +170,16 @@ on_toolbtn_delete_clicked (GtkToolButton *toolbutton, gpointer user_data)
 }
 
 void
+on_toolbtn_refresh_clicked (GtkToolButton *toolbutton, gpointer user_data)
+{
+    StarcmdMainWindow *self = STARCMD_MAIN_WINDOW (user_data);
+    StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
+
+    gtk_tree_store_clear (priv->tstore_commands);
+    load_commands (self);
+}
+
+void
 on_dialog_delete_command_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
     StarcmdMainWindow *self = STARCMD_MAIN_WINDOW (user_data);
@@ -234,8 +248,6 @@ load_commands (StarcmdMainWindow *self)
     // Populate treestore with data from command database.
     GtkTreeIter iter;
     GtkTreeIter iter_child;
-    gtk_tree_view_column_add_attribute (priv->tvcol_key, priv->tvrow_key, "text", KEY);
-    gtk_tree_view_column_add_attribute (priv->tvcol_value, priv->tvrow_value, "text", VALUE);
 
     while (sqlite3_step (res) == SQLITE_ROW)
     {
