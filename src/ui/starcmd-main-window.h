@@ -34,6 +34,11 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (StarcmdMainWindow, starcmd_main_window, STARCMD, MAIN_WINDOW, GtkApplicationWindow)
 
+struct _StarcmdMainWindow
+{
+    GtkApplicationWindow parent;
+};
+
 StarcmdMainWindow *starcmd_main_window_new (StarcmdApp *app);
 
 /* TREESTORE OBJECTS */

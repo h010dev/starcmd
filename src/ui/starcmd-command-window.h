@@ -60,7 +60,9 @@ void on_btn_browse_file_set        (GtkFileChooserButton *btn, StarcmdCommandWin
 
 /* HELPER METHODS */
 
-int save_command (StarcmdCommandWindow **self, sqlite3 *db);
+int      load_command       (StarcmdCommandWindow *self, sqlite3 *db);
+int      save_command       (StarcmdCommandWindow **self, sqlite3 *db);
+gboolean is_command_changed (StarcmdCommandWindow *self);
 
 G_END_DECLS
 

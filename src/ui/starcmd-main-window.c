@@ -26,13 +26,9 @@
 #include "starcmd-main-window.h"
 #include "starcmd-command-view.h"
 #include "starcmd-command-window.h"
+#include "../core/starcmd-db.h"
 
 /* GOBJECT DEFINITION */
-
-struct _StarcmdMainWindow
-{
-    GtkApplicationWindow parent;
-};
 
 typedef struct _StarcmdMainWindowPrivate StarcmdMainWindowPrivate;
 
@@ -53,8 +49,9 @@ struct _StarcmdMainWindowPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (StarcmdMainWindow, starcmd_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
+/* CONSTANTS */
+
 static const gchar *RESOURCE_PATH = "/org/h010dev/starcmd/starcmd-main-window.glade";
-static const char  *f_db          = "../data/starcmd-demo.db";
 
 /* MAIN WINDOW METHOD DEFINITIONS */
 
@@ -209,61 +206,77 @@ on_dialog_delete_command_response (GtkDialog *dialog, gint response_id, gpointer
 /* TREESTORE METHOD DEFINITIONS */
 
 static int
-open_commands (sqlite3 **db)
+load_commands (StarcmdMainWindow *self)
 {
-    if (sqlite3_open (f_db, db) != SQLITE_OK)
+    int      err; 
+    sqlite3 *db;
+    if ( (err = starcmd_db_open (&db)) != 0)
+        return 1;
+
+    int nrows = 0;
+    if ( (err = starcmd_db_count (&db, &nrows)) != 0 )
     {
-        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (*db));
-        sqlite3_close (*db);
+        starcmd_db_close (&db);
         return 1;
     }
 
-    return 0;
-}
-
-static int
-load_commands (StarcmdMainWindow *self)
-{
-    int err; 
-    sqlite3 *db;
-
-    if ( (err = open_commands (&db)) != 0)
-        return 1;
-
-    int                       rc;
-    char                     *sql;
-    sqlite3_stmt             *res;
-    StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
-
-    sql = "SELECT id, name, platform, os, description, command, examples, refs, tags, datemod, icon, fav "
-          "FROM commands "
-          "ORDER BY name ASC;";
-
-    if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
+    struct CommandData all_data[nrows];
+    if ( (err = starcmd_db_loadall (&db, all_data, nrows)) != 0)
     {
-        fprintf (stderr, "Cannot execute statement: %s\n", sqlite3_errmsg (db));
+        starcmd_db_close (&db);
         return 1;
     }
 
     // Populate treestore with data from command database.
-    GtkTreeIter iter;
-    GtkTreeIter iter_child;
+    GtkTreeIter               iter;
+    GtkTreeIter               iter_child;
+    StarcmdMainWindowPrivate *priv;
 
-    while (sqlite3_step (res) == SQLITE_ROW)
+    priv = starcmd_main_window_get_instance_private (self);
+
+    for (int i = 0; i < nrows; i++)
     {
         gtk_tree_store_append (priv->tstore_commands, &iter, NULL);
         gtk_tree_store_set (priv->tstore_commands, &iter, KEY, keys[KEY_NAME], -1);
-        gtk_tree_store_set (priv->tstore_commands, &iter, VALUE, sqlite3_column_text (res, 1), -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter, VALUE, all_data[i].name, -1);
 
-        for (int i = KEY_PLATFORM; i < KEY_LAST_ROW; i++)
-        {
-            gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
-            gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[i], -1);
-            gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, sqlite3_column_text (res, i), -1);
-        }
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_PLATFORM], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].platform, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_OS], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].os, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_DESC], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].description, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_CMDS], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].commands, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_EXAMPLES], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].examples, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_REFS], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].references, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_TAGS], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].tags, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_DATEMOD], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].datemod, -1);
+
+        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_ICON], -1);
+        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].icon_path, -1);
     }
-    sqlite3_finalize (res);
-    sqlite3_close (db);
+    starcmd_db_close (&db);
 
     return 0;
 }
@@ -274,26 +287,15 @@ delete_command (StarcmdMainWindow *self, char *name)
     sqlite3 *db;
     int      err;
 
-    if ( (err = open_commands (&db)) != 0 )
+    if ( (err = starcmd_db_open (&db)) != 0 )
         return 1;
 
-    int           rc;
-    sqlite3_stmt *res;
-
-    char *sql = "DELETE FROM commands "
-                "WHERE name = ?";
-
-    if ( (rc = sqlite3_prepare_v2 (db, sql, -1, &res, 0)) != SQLITE_OK)
+    if ( (err = starcmd_db_delete (&db, name)) != 0)
     {
-        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (db));
-        sqlite3_close (db);
+        starcmd_db_close (&db);
         return 1;
     }
-
-    sqlite3_bind_text (res, 1, name, strlen (name), SQLITE_TRANSIENT);
-    sqlite3_step (res);
-    sqlite3_finalize (res);
-    sqlite3_close (db);
+    starcmd_db_close (&db);
 
     return 0;
 }
