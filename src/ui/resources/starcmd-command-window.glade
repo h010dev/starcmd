@@ -3,21 +3,51 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkTextBuffer" id="buffer_commands">
-    <signal name="changed" handler="on_buffer_commands_changed" swapped="no"/>
+    <signal name="changed" handler="on_buffer_commands_changed" object="StarcmdCommandWindow" swapped="no"/>
   </object>
   <object class="GtkTextBuffer" id="buffer_description">
-    <signal name="changed" handler="on_buffer_description_changed" swapped="no"/>
+    <signal name="changed" handler="on_buffer_description_changed" object="StarcmdCommandWindow" swapped="no"/>
   </object>
   <object class="GtkTextBuffer" id="buffer_examples">
-    <signal name="changed" handler="on_buffer_examples_changed" swapped="no"/>
+    <signal name="changed" handler="on_buffer_examples_changed" object="StarcmdCommandWindow" swapped="no"/>
   </object>
   <object class="GtkEntryBuffer" id="buffer_name"/>
   <object class="GtkEntryBuffer" id="buffer_os"/>
   <object class="GtkEntryBuffer" id="buffer_platform"/>
   <object class="GtkTextBuffer" id="buffer_references">
-    <signal name="changed" handler="on_buffer_references_changed" swapped="no"/>
+    <signal name="changed" handler="on_buffer_references_changed" object="StarcmdCommandWindow" swapped="no"/>
   </object>
   <object class="GtkEntryBuffer" id="buffer_tags"/>
+  <object class="GtkMessageDialog" id="dialog_success">
+    <property name="can_focus">False</property>
+    <property name="modal">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
+    <property name="deletable">False</property>
+    <property name="buttons">ok</property>
+    <property name="text" translatable="yes">Success</property>
+    <property name="secondary_text" translatable="yes">Command Saved</property>
+    <signal name="response" handler="on_dialog_success_response" object="StarcmdCommandWindow" swapped="no"/>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="btn_success">
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <property name="layout_style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkFileFilter" id="filter_image">
     <mime-types>
       <mime-type>image/jpeg</mime-type>
@@ -27,6 +57,7 @@
   <template class="StarcmdCommandWindow" parent="GtkWindow">
     <property name="can_focus">False</property>
     <property name="destroy_with_parent">True</property>
+    <property name="deletable">False</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -179,7 +210,7 @@
                 <property name="can_focus">True</property>
                 <property name="buffer">buffer_name</property>
                 <property name="placeholder_text" translatable="yes">The name of this command</property>
-                <signal name="changed" handler="on_textentry_name_changed" object="buffer_name" swapped="no"/>
+                <signal name="changed" handler="on_textentry_name_changed" object="StarcmdCommandWindow" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -192,7 +223,7 @@
                 <property name="can_focus">True</property>
                 <property name="buffer">buffer_platform</property>
                 <property name="placeholder_text" translatable="yes">The target platform for this command</property>
-                <signal name="changed" handler="on_textentry_platform_changed" object="buffer_platform" swapped="no"/>
+                <signal name="changed" handler="on_textentry_platform_changed" object="StarcmdCommandWindow" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -205,7 +236,7 @@
                 <property name="can_focus">True</property>
                 <property name="buffer">buffer_os</property>
                 <property name="placeholder_text" translatable="yes">The target OS for this command</property>
-                <signal name="changed" handler="on_textentry_os_changed" object="buffer_os" swapped="no"/>
+                <signal name="changed" handler="on_textentry_os_changed" object="StarcmdCommandWindow" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -318,7 +349,7 @@
                 <property name="can_focus">True</property>
                 <property name="buffer">buffer_tags</property>
                 <property name="placeholder_text" translatable="yes">Tags for quick lookup</property>
-                <signal name="changed" handler="on_textentry_tags_changed" object="buffer_tags" swapped="no"/>
+                <signal name="changed" handler="on_textentry_tags_changed" object="StarcmdCommandWindow" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -416,29 +447,13 @@
             <property name="spacing">10</property>
             <property name="layout_style">start</property>
             <child>
-              <object class="GtkButton" id="btn_delete">
-                <property name="label">gtk-delete</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_btn_delete_clicked" object="lbl_id" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="btn_cancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
-                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_btn_cancel_clicked" object="StarcmdCommandWindow" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -450,10 +465,10 @@
               <object class="GtkButton" id="btn_save">
                 <property name="label">gtk-apply</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
-                <property name="always_show_image">True</property>
                 <signal name="clicked" handler="on_btn_save_clicked" object="StarcmdCommandWindow" swapped="no"/>
               </object>
               <packing>
