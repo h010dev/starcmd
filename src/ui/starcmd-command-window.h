@@ -45,20 +45,22 @@ StarcmdCommandWindow *starcmd_command_window_new              (void);
 void                  starcmd_command_window_populate_widgets (StarcmdCommandWindow *self, char *name);
 
 /* CALLBACK HANDLERS */
+
 void on_btn_cancel_clicked         (GtkButton *btn, StarcmdCommandWindow *self);
-void on_btn_save_clicked           (GtkButton *btn, gpointer user_data);
+void on_btn_save_clicked           (GtkButton *btn, StarcmdCommandWindow *self);
 void on_btn_browse_clicked         (GtkButton *btn);
 void on_btn_download_clicked       (GtkButton *btn);
-void on_textentry_name_changed     (GtkEditable *editable, gpointer user_data);
-void on_buffer_description_changed (GtkTextBuffer *textbuffer, gpointer user_data);
-void on_buffer_commands_changed    (GtkTextBuffer *textbuffer, gpointer user_data);
-void on_buffer_examples_changed    (GtkTextBuffer *textbuffer, gpointer user_data);
-void on_buffer_references_changed  (GtkTextBuffer *textbuffer, gpointer user_data);
-void on_textentry_tags_changed     (GtkEditable *editable, gpointer user_data);
-void on_btn_browse_file_set        (GtkFileChooserButton *btn, gpointer user_data);
+void on_textentry_name_changed     (GtkEditable *editable, StarcmdCommandWindow *self);
+void on_buffer_description_changed (GtkTextBuffer *textbuffer, StarcmdCommandWindow *self);
+void on_buffer_commands_changed    (GtkTextBuffer *textbuffer, StarcmdCommandWindow *self);
+void on_buffer_examples_changed    (GtkTextBuffer *textbuffer, StarcmdCommandWindow *self);
+void on_buffer_references_changed  (GtkTextBuffer *textbuffer, StarcmdCommandWindow *self);
+void on_textentry_tags_changed     (GtkEditable *editable, StarcmdCommandWindow *self);
+void on_btn_browse_file_set        (GtkFileChooserButton *btn, StarcmdCommandWindow *self);
 
 /* HELPER METHODS */
-int save_command   (StarcmdCommandWindow *self, sqlite3 *db);
+
+int save_command (StarcmdCommandWindow **self, sqlite3 *db);
 
 G_END_DECLS
 
