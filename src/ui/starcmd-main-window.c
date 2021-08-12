@@ -45,6 +45,7 @@ struct _StarcmdMainWindowPrivate
     GtkToolButton     *toolbtn_delete;
     GtkToolButton     *toolbtn_star;
     GtkDialog         *dialog_delete_command;
+    GtkDialog         *dialog_about;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (StarcmdMainWindow, starcmd_main_window, GTK_TYPE_APPLICATION_WINDOW);
@@ -70,6 +71,7 @@ starcmd_main_window_class_init (StarcmdMainWindowClass *klass)
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, toolbtn_delete);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, toolbtn_star);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, dialog_delete_command);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, dialog_about);
 }
 
 static void
@@ -99,6 +101,16 @@ starcmd_main_window_populate_widgets (StarcmdMainWindow *self)
 }
 
 /* CALLBACK HANDLERS */
+
+void
+on_menuitem_about_activate (GtkMenuItem *menuitem, StarcmdMainWindow *self)
+{
+    StarcmdMainWindowPrivate *priv;
+
+    priv = starcmd_main_window_get_instance_private (self);
+
+    gtk_widget_show (GTK_WIDGET (priv->dialog_about));
+}
 
 void
 on_tvsel_changed (GtkTreeSelection *treeselection, gpointer user_data)
@@ -174,6 +186,14 @@ on_toolbtn_refresh_clicked (GtkToolButton *toolbutton, gpointer user_data)
 
     gtk_tree_store_clear (priv->tstore_commands);
     load_commands (self);
+}
+
+void
+on_dialog_about_response (GtkDialog *dialog, gint response_id, StarcmdMainWindow *self)
+{
+    StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
+
+    gtk_widget_hide (GTK_WIDGET (priv->dialog_about));
 }
 
 void

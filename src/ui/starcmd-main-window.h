@@ -91,10 +91,12 @@ static int  delete_command                       (StarcmdMainWindow *self, char 
 
 /* CALLBACK PROTOTYPES */
 
+void        on_menuitem_about_activate           (GtkMenuItem *menuitem, StarcmdMainWindow *self);
 void        on_tvsel_changed                     (GtkTreeSelection *treeselection, gpointer user_data);
 void        on_toolbtn_new_clicked               (GtkToolButton *toolbutton, gpointer user_data);
 void        on_toolbtn_edit_clicked              (GtkToolButton *toolbutton, gpointer user_data);
 void        on_toolbtn_delete_clicked            (GtkToolButton *toolbutton, gpointer user_data);
+void        on_dialog_about_response             (GtkDialog *dialog, gint response_id, StarcmdMainWindow *self);
 void        on_dialog_delete_command_response    (GtkDialog *dialog, gint response_id, gpointer user_data);
 
 G_END_DECLS
