@@ -124,7 +124,6 @@ on_menuitem_tutorial_activate (GtkMenuItem *menuitem, StarcmdMainWindow *self)
     priv = starcmd_main_window_get_instance_private (self);
 
     gtk_window_present (priv->window_tutorial);
-    //gtk_widget_show (GTK_WIDGET (priv->assistant_tutorial));
 }
 
 void
