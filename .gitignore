@@ -60,9 +60,13 @@ compile_commands.json
 
 # App
 *.db
+img/
 
 # Glade
 *~
 
 # Image artifacts
 *Identifier
+
+# Auth
+*.pem
