@@ -24,7 +24,6 @@
 
 #include "../starcmd-app.h"
 #include "starcmd-main-window.h"
-#include "starcmd-command-view.h"
 #include "starcmd-command-window.h"
 #include "../core/starcmd-db.h"
 

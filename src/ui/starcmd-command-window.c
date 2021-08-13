@@ -24,7 +24,6 @@
 
 #include "starcmd-command-window.h"
 #include "starcmd-main-window.h"
-#include "starcmd-image-search-window.h"
 #include "../core/starcmd-db.h"
 #include "../core/starcmd-image-client.h"
 
