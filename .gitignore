@@ -70,3 +70,6 @@ img/
 
 # Auth
 *.pem
+
+# Archived files
+*.old
