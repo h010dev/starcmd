@@ -22,6 +22,7 @@
 #include <gtk/gtk.h>
 
 #include "starcmd-image-search-window.h"
+#include "../core/starcmd-image-client.h"
 
 /* GOBJECT DEFINITION */
 
@@ -68,6 +69,8 @@ void
 on_btn_img_find_clicked (GtkButton *btn, gpointer user_data)
 {
     (void) user_data;
+    int err;
+    //download_image ("python");
 }
 
 void
