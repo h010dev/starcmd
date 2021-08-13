@@ -49,7 +49,7 @@ void                  starcmd_command_window_populate_widgets (StarcmdCommandWin
 void on_btn_cancel_clicked         (GtkButton *btn, StarcmdCommandWindow *self);
 void on_btn_save_clicked           (GtkButton *btn, StarcmdCommandWindow *self);
 void on_btn_browse_clicked         (GtkButton *btn);
-void on_btn_download_clicked       (GtkButton *btn);
+void on_btn_download_clicked       (GtkButton *btn, StarcmdCommandWindow *self);
 void on_textentry_name_changed     (GtkEditable *editable, StarcmdCommandWindow *self);
 void on_buffer_description_changed (GtkTextBuffer *textbuffer, StarcmdCommandWindow *self);
 void on_buffer_commands_changed    (GtkTextBuffer *textbuffer, StarcmdCommandWindow *self);
