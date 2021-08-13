@@ -2,8 +2,6 @@
 <gresources>
   <gresource prefix="/org/h010dev/starcmd">
     <file preprocess="xml-stripblanks">starcmd-main-window.glade</file>
-    <file preprocess="xml-stripblanks">starcmd-command-view.glade</file>
     <file preprocess="xml-stripblanks">starcmd-command-window.glade</file>
-    <file preprocess="xml-stripblanks">starcmd-image-search-window.glade</file>
   </gresource>
 </gresources>
