@@ -46,6 +46,8 @@ struct _StarcmdMainWindowPrivate
     GtkToolButton     *toolbtn_star;
     GtkDialog         *dialog_delete_command;
     GtkDialog         *dialog_about;
+    GtkWindow         *window_tutorial;
+    GtkLinkButton     *linkbtn_app;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (StarcmdMainWindow, starcmd_main_window, GTK_TYPE_APPLICATION_WINDOW);
@@ -72,6 +74,8 @@ starcmd_main_window_class_init (StarcmdMainWindowClass *klass)
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, toolbtn_star);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, dialog_delete_command);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, dialog_about);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, window_tutorial);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, linkbtn_app);
 }
 
 static void
@@ -81,6 +85,7 @@ starcmd_main_window_init (StarcmdMainWindow *self)
     StarcmdMainWindowPrivate *priv = starcmd_main_window_get_instance_private (self);
     gtk_tree_view_column_add_attribute (priv->tvcol_key, priv->tvrow_key, "text", KEY);
     gtk_tree_view_column_add_attribute (priv->tvcol_value, priv->tvrow_value, "text", VALUE);
+    gtk_button_set_label (GTK_BUTTON (priv->linkbtn_app), "link");
 
     starcmd_main_window_populate_widgets (self);
 }
@@ -110,6 +115,17 @@ on_menuitem_about_activate (GtkMenuItem *menuitem, StarcmdMainWindow *self)
     priv = starcmd_main_window_get_instance_private (self);
 
     gtk_widget_show (GTK_WIDGET (priv->dialog_about));
+}
+
+void
+on_menuitem_tutorial_activate (GtkMenuItem *menuitem, StarcmdMainWindow *self)
+{
+    StarcmdMainWindowPrivate *priv;
+
+    priv = starcmd_main_window_get_instance_private (self);
+
+    gtk_window_present (priv->window_tutorial);
+    //gtk_widget_show (GTK_WIDGET (priv->assistant_tutorial));
 }
 
 void

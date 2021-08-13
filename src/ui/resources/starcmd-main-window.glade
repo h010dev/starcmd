@@ -167,6 +167,15 @@
                         <signal name="activate" handler="on_menuitem_about_activate" object="StarcmdMainWindow" swapped="no"/>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_tutorial">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Tutorial</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_menuitem_tutorial_activate" object="StarcmdMainWindow" swapped="no"/>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -267,8 +276,8 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkScrolledWindow" id="scrollwin_commands">
-                <property name="width_request">650</property>
-                <property name="height_request">450</property>
+                <property name="width_request">750</property>
+                <property name="height_request">550</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hexpand">True</property>
@@ -478,5 +487,346 @@
       <action-widget response="-6">btn_cancel</action-widget>
       <action-widget response="-5">btn_ok</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkWindow" id="window_tutorial">
+    <property name="can_focus">False</property>
+    <property name="default_width">440</property>
+    <property name="default_height">250</property>
+    <property name="transient_for">StarcmdMainWindow</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkStack" id="stack_tutorial">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkGrid" id="stack_page_intro">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">15</property>
+                            <property name="margin_right">15</property>
+                            <property name="margin_top">15</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="label" translatable="yes">Welcome to STARCMD Command Browser! 
+
+A place to store instructions on how to use commands so that you can access them anytime you need.
+
+This quick tutorial will walk you through the basic functions of STARCMD, and by the end you should be ready to start using it!</property>
+                            <property name="justify">center</property>
+                            <property name="wrap">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_01</property>
+                <property name="title" translatable="yes">Intro</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="stack_page_addcmd">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">15</property>
+                            <property name="margin_right">15</property>
+                            <property name="margin_top">15</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="label" translatable="yes">To add a new command, click the new-file button on the upper right-hand side of the main window.
+
+A new window will pop up, asking you for information to fill in before saving the command.
+
+At the very least, you will have to have a unique name, a platform type (e.g. Python), and one or more commands. 
+
+Once these fields are filled-out, you will be able to click the apply button to save your changes.
+
+To see the changes on the app window, click the refresh button.</property>
+                            <property name="justify">center</property>
+                            <property name="wrap">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_02</property>
+                <property name="title" translatable="yes">Adding Commands</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="stack_page_addicon">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">15</property>
+                            <property name="margin_right">15</property>
+                            <property name="margin_top">15</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="label" translatable="yes">You may have realized that while filling out the new command form, you had the option to add an icon for your command.
+
+Clicking the browse button will open your computer's file browser and allow you to select a photo of your choosing. 
+
+Alternatively, you can download an image to use as your icon by clicking the download button. Doing so will open up a small window where you can search for the image (e.g. python) and a result will be shown in the window below. Clicking OK will save the icon to the app's icon folder, and also add it to your current command.</property>
+                            <property name="justify">center</property>
+                            <property name="wrap">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_03</property>
+                <property name="title" translatable="yes">Adding Icons</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="stack_page_editcmd">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">15</property>
+                            <property name="margin_right">15</property>
+                            <property name="margin_top">15</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="label" translatable="yes">To edit an existing command, click on the command's name field in the main window. The edit button will be highlighted once you do so, and you can click that button to edit your command.
+
+This window is identical to the add command window, so follow the same steps, and click apply to save the changes.
+
+To see the changes on the app window, click the refresh button.</property>
+                            <property name="justify">center</property>
+                            <property name="wrap">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_04</property>
+                <property name="title" translatable="yes">Editing Commands</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="stack_page_delcmd">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">15</property>
+                            <property name="margin_right">15</property>
+                            <property name="margin_top">15</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="label" translatable="yes">To delete an existing command, click on the command's name field in the main window. The delete button will be highlighted once you do so.
+
+The app will ask you if you are sure to proceed, and upon confirming it will proceed to delete the command for you.</property>
+                            <property name="justify">center</property>
+                            <property name="wrap">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_05</property>
+                <property name="title" translatable="yes">Deleting Commands</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="stack_page_morehelp">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkGrid">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">15</property>
+                                <property name="margin_right">15</property>
+                                <property name="margin_top">15</property>
+                                <property name="margin_bottom">15</property>
+                                <property name="label" translatable="yes">To get more help, visit STARCMD's main page at:</property>
+                                <property name="justify">center</property>
+                                <property name="wrap">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLinkButton" id="linkbtn_app">
+                                <property name="label" translatable="yes">button</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="relief">none</property>
+                                <property name="uri">https://www.github.com/h010dev/starcmd</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_06</property>
+                <property name="title" translatable="yes">Getting More Help</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkStackSidebar" id="sidebar_tutorial">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="stack">stack_tutorial</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
