@@ -46,7 +46,7 @@ starcmd_db_load (sqlite3 **db, char *name, struct CommandData **data)
     sqlite3_stmt *res;
     char         *sql;
 
-    sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod "
+    sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod, icon "
           "FROM commands "
           "WHERE name = ?";
 
@@ -70,6 +70,7 @@ starcmd_db_load (sqlite3 **db, char *name, struct CommandData **data)
         (*data)->references = (char *) strdup ((const char *) sqlite3_column_text (res, 6));
         (*data)->tags = (char *) strdup ((const char *) sqlite3_column_text (res, 7));
         (*data)->datemod = (char *) strdup ((const char *) sqlite3_column_text (res, 8));
+        (*data)->icon_path = (char *) strdup ((const char *) sqlite3_column_text (res, 9));
     }
     sqlite3_finalize (res);
 
