@@ -26,7 +26,6 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkMenuItem">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_File</property>
                 <property name="use_underline">True</property>
@@ -91,7 +90,6 @@
             </child>
             <child>
               <object class="GtkMenuItem">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Edit</property>
                 <property name="use_underline">True</property>
@@ -141,7 +139,6 @@
             </child>
             <child>
               <object class="GtkMenuItem">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_View</property>
                 <property name="use_underline">True</property>
@@ -237,7 +234,6 @@
             </child>
             <child>
               <object class="GtkToolButton" id="toolbtn_star">
-                <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">star</property>

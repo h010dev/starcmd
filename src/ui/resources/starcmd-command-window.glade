@@ -11,6 +11,7 @@
   <object class="GtkTextBuffer" id="buffer_examples">
     <signal name="changed" handler="on_buffer_examples_changed" object="StarcmdCommandWindow" swapped="no"/>
   </object>
+  <object class="GtkEntryBuffer" id="buffer_image_name"/>
   <object class="GtkEntryBuffer" id="buffer_name"/>
   <object class="GtkEntryBuffer" id="buffer_os"/>
   <object class="GtkEntryBuffer" id="buffer_platform"/>
@@ -399,7 +400,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <signal name="clicked" handler="on_btn_download_clicked" swapped="no"/>
+                        <signal name="clicked" handler="on_btn_download_clicked" object="StarcmdCommandWindow" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -410,6 +411,21 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="img_cmd_icon">
+                    <property name="width_request">50</property>
+                    <property name="height_request">50</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">baseline</property>
+                    <property name="valign">baseline</property>
+                    <property name="stock">gtk-missing-image</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
@@ -487,4 +503,121 @@
       </object>
     </child>
   </template>
+  <object class="GtkWindow" id="window_image_search">
+    <property name="can_focus">False</property>
+    <property name="deletable">False</property>
+    <property name="transient_for">StarcmdCommandWindow</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">15</property>
+        <property name="margin_right">15</property>
+        <property name="margin_top">15</property>
+        <property name="margin_bottom">15</property>
+        <property name="vexpand">True</property>
+        <child>
+          <object class="GtkButtonBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="vexpand">True</property>
+            <property name="layout_style">start</property>
+            <child>
+              <object class="GtkButton" id="btn_image_search_cancel">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btn_image_search_cancel_clicked" object="StarcmdCommandWindow" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_image_search_add">
+                <property name="label" translatable="yes">OK</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btn_image_search_add_clicked" object="StarcmdCommandWindow" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="height_request">5</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkEntry" id="textentry_image_name">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="buffer">buffer_image_name</property>
+                <signal name="changed" handler="on_textentry_image_name_changed" object="StarcmdCommandWindow" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_image_search_find">
+                <property name="label" translatable="yes">Find</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btn_image_search_find_clicked" object="StarcmdCommandWindow" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkViewport">
+            <property name="width_request">25</property>
+            <property name="height_request">75</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkImage" id="img_result">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-missing-image</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>
