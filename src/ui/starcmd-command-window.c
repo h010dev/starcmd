@@ -270,12 +270,6 @@ on_btn_browse_file_set (GtkFileChooserButton *btn, StarcmdCommandWindow *self)
 }
 
 void
-on_btn_browse_clicked (GtkButton *btn)
-{
-    printf ("browse btn clicked\n");
-}
-
-void
 on_btn_download_clicked (GtkButton *btn, StarcmdCommandWindow *self)
 {
     StarcmdCommandWindowPrivate *priv = starcmd_command_window_get_instance_private (self);
