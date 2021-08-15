@@ -38,11 +38,8 @@ typedef struct _StarcmdCommandWindowPrivate StarcmdCommandWindowPrivate;
 
 struct _StarcmdCommandWindowPrivate
 {
-    GtkWidget  *btn_cancel;
     GtkWidget  *btn_save;
-    GtkWidget  *btn_browse;
-    GtkWidget  *btn_download;
-    GtkWidget  *lbl_id;
+
     GtkWidget  *buffer_name;
     GtkWidget  *buffer_platform;
     GtkWidget  *buffer_os;
@@ -51,17 +48,16 @@ struct _StarcmdCommandWindowPrivate
     GtkWidget  *buffer_examples;
     GtkWidget  *buffer_references;
     GtkWidget  *buffer_tags;
+    GtkWidget  *buffer_image_name;
+
     GtkWidget  *lbl_datemod_info;
     GtkWidget  *dialog_success;
-    GtkWidget  *btn_image_search_find;
-    GtkWidget  *btn_image_search_add;
-    GtkWidget  *btn_image_search_cancel;
-    GtkWidget  *textentry_image_name;
     GtkWidget  *img_result;
     GtkWidget  *window_image_search;
-    GtkWidget  *buffer_image_name;
     GtkWidget  *img_cmd_icon;
+
     const char *name_default;
+
     const char *name;
     const char *platform;
     const char *os;
@@ -72,6 +68,7 @@ struct _StarcmdCommandWindowPrivate
     const char *tags;
     const char *datemod;
     const char *icon;
+
     const char *image_name;
     const char *img_path;
 };
@@ -88,7 +85,6 @@ static void
 starcmd_command_window_class_init (StarcmdCommandWindowClass *klass)
 {
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), RESOURCE_PATH);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, lbl_id);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_name);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_platform);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_os);
@@ -100,10 +96,6 @@ starcmd_command_window_class_init (StarcmdCommandWindowClass *klass)
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, lbl_datemod_info);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, dialog_success);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, btn_save);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, btn_image_search_find);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, btn_image_search_add);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, btn_image_search_cancel);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, textentry_image_name);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, img_result);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, window_image_search);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdCommandWindow, buffer_image_name);

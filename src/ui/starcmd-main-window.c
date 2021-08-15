@@ -20,11 +20,12 @@
  */
 
 #include <gtk/gtk.h>
+
 #include <sqlite3/sqlite3.h>
 
-#include "../starcmd-app.h"
 #include "starcmd-main-window.h"
 #include "starcmd-command-window.h"
+#include "../starcmd-app.h"
 #include "../core/starcmd-db.h"
 
 /* GOBJECT DEFINITION */
@@ -40,9 +41,11 @@ struct _StarcmdMainWindowPrivate
     GtkTreeViewColumn *tvcol_value;
     GtkCellRenderer   *tvrow_value;
     GtkTreeSelection  *tvsel;
+
     GtkToolButton     *toolbtn_edit;
     GtkToolButton     *toolbtn_delete;
     GtkToolButton     *toolbtn_star;
+
     GtkDialog         *dialog_delete_command;
     GtkDialog         *dialog_about;
     GtkWindow         *window_tutorial;
