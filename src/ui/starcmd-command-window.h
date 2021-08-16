@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "starcmd-main-window.h"
-#include "sqlite3/sqlite3.h"
+#include "sqlite3.h"
 
 G_BEGIN_DECLS
 

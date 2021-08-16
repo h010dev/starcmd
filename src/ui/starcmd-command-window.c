@@ -20,7 +20,7 @@
  */
 
 #include <gtk/gtk.h>
-#include <sqlite3/sqlite3.h>
+#include "sqlite3.h"
 
 #include "starcmd-command-window.h"
 #include "starcmd-main-window.h"

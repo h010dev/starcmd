@@ -23,7 +23,7 @@ PKGCONFIG = $(shell which pkg-config)
 CFLAGS = $(shell $(PKGCONFIG) --cflags gtk+-3.0)
 LIBS = $(shell $(PKGCONFIG) --libs gtk+-3.0)
 LDFLAGS = -lsqlite3 -lcurl
-INC = -I/usr/include/sqlite3
+INC = -I/usr/include
 GLIB_COMPILE_RESOURCES = $(shell $(PKGCONFIG) --variable=glib_compile_resources gio-2.0)
 
 SRC = src/main.c src/starcmd-app.c src/core/starcmd-db.c src/core/starcmd-image-client.c src/ui/starcmd-main-window.c src/ui/starcmd-command-window.c

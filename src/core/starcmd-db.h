@@ -22,7 +22,7 @@
 #ifndef STARCMD_DB_H
 #define STARCMD_DB_H
 
-#include "sqlite3/sqlite3.h"
+#include "sqlite3.h"
 
 struct CommandData
 {

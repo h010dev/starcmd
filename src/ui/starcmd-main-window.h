@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 
-#include <sqlite3/sqlite3.h>
+#include "sqlite3.h"
 
 #include "../starcmd-app.h"
 
