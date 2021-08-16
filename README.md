@@ -16,14 +16,46 @@ This project is being actively worked on, so stay tuned for more updates!
 At its current state, you will have to compile the application locally to get it up and running. I've only tested this on Linux platforms (namely Ubuntu 20.0.4 LTS), but plan on expanding testing and coverage once the current iteration of the app is completed. 
 
 The application has a few dependencies, those being:
-* cesanta-mongoose
 * cURL
-* OpenSSL
 * sqlite3
 
-These are the steps I followed to get my environment set up on a fresh Ubuntu 20.04 LTS VM instance:
+These steps apply to Ubuntu 20.04 LTS but can be modified to work with other distros:
 
-(I'll be updating this part soon)
+### Install Dependencies
+
+```sh
+sudo apt update && \
+    sudo apt install libsqlite3-dev && \
+    sudo apt install sqlite3 && \
+    sudo apt install -y libgtk-3-dev && \
+    sudo apt install libcurl4-openssl-dev && \
+    sudo apt update
+```
+
+### Download Source Code and Setup Environment
+
+```sh
+git clone https://github.com/h010dev/starcmd.git && \
+    cd starcmd && \
+    ./config.sh
+```
+
+### Install Application
+
+```sh
+make && \
+    sudo make install && \
+    make clean
+```
+
+
+At this point, your system should have the application available in its app directory/browser under the name `StarCMD`.
+
+### Uninstall Application
+
+```sh
+sudo make uninstall
+```
 
 # License
 
