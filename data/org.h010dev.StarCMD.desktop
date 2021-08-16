@@ -4,6 +4,6 @@ GenericName=Starcmd
 Comment=Command Browser
 Categories=GTK
 Icon=starcmd
-Exec=/home/mohamed/Documents/starcmd/src/starcmd
+Exec=/usr/bin/org.h010dev.StarCMD
 Terminal=false
 Type=Application
