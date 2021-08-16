@@ -344,7 +344,7 @@
     <property name="website">https://github.com/h010dev/starcmd</property>
     <property name="website_label" translatable="yes">View Source Code</property>
     <property name="authors">Mohamed Al-Hussein</property>
-    <property name="logo">../data/icons/starcmd-logo.png</property>
+    <property name="logo">usr/share/icons/hicolor/scalable/apps/org.h010dev.StarCMD-logo.png</property>
     <property name="license_type">gpl-3-0-only</property>
     <signal name="response" handler="on_dialog_about_response" object="StarcmdMainWindow" swapped="no"/>
     <child type="titlebar">

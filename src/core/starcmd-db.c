@@ -25,14 +25,14 @@
 
 #include "starcmd-db.h"
 
-static const char *f_db = "../data/starcmd-demo.db";
+static const char *f_db = "~/.config/StarCMD/data/userdata.db";
 
 int
 starcmd_db_open (sqlite3 **db)
 {
     if (sqlite3_open (f_db, db) != SQLITE_OK)
     {
-        fprintf (stderr, "Cannot open database: %s\n", sqlite3_errmsg (*db));
+        fprintf (stderr, "Cannot open database '%s': %s\n", f_db, sqlite3_errmsg (*db));
         sqlite3_close (*db);
         return 1;
     }
