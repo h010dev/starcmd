@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Starcmd
+GenericName=Starcmd
+Comment=Command Browser
+Categories=GTK
+Icon=starcmd
+Exec=/home/mohamed/Documents/starcmd/src/starcmd
+Terminal=false
+Type=Application
