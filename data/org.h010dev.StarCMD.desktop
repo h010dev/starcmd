@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Starcmd
-GenericName=Starcmd
+Name=StarCMD
+GenericName=StarCMD
 Comment=Command Browser
 Categories=GTK
-Icon=starcmd
+Icon=org.h010dev.StarCMD
 Exec=/usr/bin/org.h010dev.StarCMD
 Terminal=false
 Type=Application
