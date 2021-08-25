@@ -19,23 +19,94 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "stdlib.h"
-#include "stdio.h"
-#include "string.h"
-
 #include "starcmd-db.h"
 
-static const char *f_db = "~/.config/StarCMD/data/userdata.db";
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <pwd.h>
+#include <errno.h>
+
+static const char *f_db = "/.config/StarCMD/data/userdata.db";
+
+int
+starcmd_print_error (char *description)
+{
+    char *err_msg;
+    if ( (err_msg = strerror (errno)) == NULL || strcmp (err_msg, "Unknown error nnn") == 0 )
+        return 1;
+
+    (void) fprintf (stderr, "%s%s\n", description, err_msg);
+    return 0;
+}
+
+int
+starcmd_db_homedir (char **homedir)
+{
+    char *home;
+    if ( (home = getenv ("HOME")) == NULL )
+    {
+        errno = 0;
+        struct passwd *pw;
+        if ( (pw = getpwuid (getuid ())) == NULL )
+        {
+            (void) starcmd_print_error ("Failed to get home directory: ");
+            return 1;
+        }
+        home = pw->pw_dir;
+    }
+
+    errno = 0;
+    if ( (*homedir = strdup (home)) == NULL )
+    {
+        (void) starcmd_print_error ("");
+        return 1;
+    }
+
+    return 0;
+}
+
+int
+starcmd_db_path (char **db_path)
+{
+    char *homedir;
+    if (starcmd_db_homedir (&homedir) != 0)
+        return 1;
+
+    int homedir_len, fdb_len;
+    if ( (homedir_len = strlen (homedir)) < 1 )
+        return 1;
+    if ( (fdb_len  = strlen (f_db)) < 1 )
+        return 1;
+
+    errno = 0;
+    if ( (*db_path = calloc (homedir_len + fdb_len + 1, sizeof (char))) == NULL )
+    {
+        (void) starcmd_print_error ("Failed to allocate space: ");
+        return 1;
+    }
+
+    strcat (*db_path, homedir);
+    strcat (*db_path, f_db);
+
+    return 0;
+}
 
 int
 starcmd_db_open (sqlite3 **db)
 {
-    if (sqlite3_open (f_db, db) != SQLITE_OK)
+    char *db_path;
+    if (starcmd_db_path (&db_path) != 0)
+        return 1;
+
+    if (sqlite3_open (db_path, db) != SQLITE_OK)
     {
-        fprintf (stderr, "Cannot open database '%s': %s\n", f_db, sqlite3_errmsg (*db));
+        fprintf (stderr, "Cannot open database '%s': %s\n", db_path, sqlite3_errmsg (*db));
         sqlite3_close (*db);
         return 1;
     }
+    free (db_path);
     return 0;
 }
 
