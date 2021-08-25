@@ -78,6 +78,7 @@ starcmd_main_window_class_init (StarcmdMainWindowClass *klass)
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, dialog_about);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, window_tutorial);
     gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), StarcmdMainWindow, linkbtn_app);
+
 }
 
 static void
@@ -116,6 +117,29 @@ on_menuitem_about_activate (GtkMenuItem *menuitem, StarcmdMainWindow *self)
 
     priv = starcmd_main_window_get_instance_private (self);
 
+    /*
+     * This is a temporary fix for resolving the logo path. 
+     *
+     * The assumption is that either the app is installed in the default directory via `make install`
+     * or that the app executable is compiled in the project directory via `make`.
+     */
+    static char *root_path = "/usr/share/icons/hicolor/scalable/apps/org.h010dev.StarCMD-logo.png";
+    static char *local_path = "./data/icons/starcmd-logo.png";
+    char  actual_path[PATH_MAX + 1];
+    char *ptr_path;
+
+    // Check install or "root" path of image.
+    if ( (ptr_path = realpath (root_path, actual_path)) == NULL )
+    {
+        // Check app folder or "local" path of image.
+        if ( (ptr_path = realpath (local_path, actual_path)) != NULL )
+            goto display_about_dialog;
+    }
+
+    GdkPixbuf *app_logo = gdk_pixbuf_new_from_file (ptr_path, NULL);
+    gtk_about_dialog_set_logo ((GtkAboutDialog *) priv->dialog_about, app_logo);
+
+display_about_dialog:
     gtk_widget_show (GTK_WIDGET (priv->dialog_about));
 }
 

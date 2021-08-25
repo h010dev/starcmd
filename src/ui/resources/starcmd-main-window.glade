@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkTreeStore" id="tstore_commands">
@@ -11,77 +11,75 @@
     </columns>
   </object>
   <template class="StarcmdMainWindow" parent="GtkApplicationWindow">
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="title" translatable="yes">starcmd</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child>
+      <!-- n-columns=3 n-rows=3 -->
       <object class="GtkGrid" id="grid_main">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkMenuBar" id="menubar">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkMenuItem">
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">_File</property>
-                <property name="use_underline">True</property>
+                <property name="use-underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-open</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-save</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-save-as</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkSeparatorMenuItem">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                   </object>
@@ -90,47 +88,47 @@
             </child>
             <child>
               <object class="GtkMenuItem">
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">_Edit</property>
-                <property name="use_underline">True</property>
+                <property name="use-underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-cut</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-copy</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-paste</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem">
                         <property name="label">gtk-delete</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                     </child>
                   </object>
@@ -139,37 +137,37 @@
             </child>
             <child>
               <object class="GtkMenuItem">
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">_View</property>
-                <property name="use_underline">True</property>
+                <property name="use-underline">True</property>
               </object>
             </child>
             <child>
               <object class="GtkMenuItem">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">_Help</property>
-                <property name="use_underline">True</property>
+                <property name="use-underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="use-underline">True</property>
+                        <property name="use-stock">True</property>
                         <signal name="activate" handler="on_menuitem_about_activate" object="StarcmdMainWindow" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="menuitem_tutorial">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Tutorial</property>
-                        <property name="use_underline">True</property>
+                        <property name="use-underline">True</property>
                         <signal name="activate" handler="on_menuitem_tutorial_activate" object="StarcmdMainWindow" swapped="no"/>
                       </object>
                     </child>
@@ -179,22 +177,22 @@
             </child>
           </object>
           <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkToolbar" id="toolbar_main">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">end</property>
             <child>
               <object class="GtkToolButton" id="toolbtn_new">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">new</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">document-new-symbolic</property>
+                <property name="use-underline">True</property>
+                <property name="icon-name">document-new-symbolic</property>
                 <signal name="clicked" handler="on_toolbtn_new_clicked" swapped="no"/>
               </object>
               <packing>
@@ -206,10 +204,10 @@
               <object class="GtkToolButton" id="toolbtn_edit">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">edit</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">document-edit-symbolic</property>
+                <property name="use-underline">True</property>
+                <property name="icon-name">document-edit-symbolic</property>
                 <signal name="clicked" handler="on_toolbtn_edit_clicked" object="tvsel" swapped="no"/>
               </object>
               <packing>
@@ -221,10 +219,10 @@
               <object class="GtkToolButton" id="toolbtn_delete">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">delete</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">edit-delete-symbolic</property>
+                <property name="use-underline">True</property>
+                <property name="icon-name">edit-delete-symbolic</property>
                 <signal name="clicked" handler="on_toolbtn_delete_clicked" object="StarcmdMainWindow" swapped="no"/>
               </object>
               <packing>
@@ -235,10 +233,10 @@
             <child>
               <object class="GtkToolButton" id="toolbtn_star">
                 <property name="sensitive">False</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">star</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">star-new-symbolic</property>
+                <property name="use-underline">True</property>
+                <property name="icon-name">star-new-symbolic</property>
                 <signal name="clicked" handler="on_toolbtn_star_clicked" object="tvsel" swapped="no"/>
               </object>
               <packing>
@@ -249,10 +247,10 @@
             <child>
               <object class="GtkToolButton" id="toolbtn_refresh">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">refresh</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">view-refresh-symbolic</property>
+                <property name="use-underline">True</property>
+                <property name="icon-name">view-refresh-symbolic</property>
                 <signal name="clicked" handler="on_toolbtn_refresh_clicked" object="StarcmdMainWindow" swapped="no"/>
               </object>
               <packing>
@@ -262,31 +260,32 @@
             </child>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">0</property>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
           </packing>
         </child>
         <child>
+          <!-- n-columns=3 n-rows=3 -->
           <object class="GtkGrid" id="grid_commands">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkScrolledWindow" id="scrollwin_commands">
-                <property name="width_request">750</property>
-                <property name="height_request">550</property>
+                <property name="width-request">750</property>
+                <property name="height-request">550</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can-focus">True</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="shadow_type">in</property>
+                <property name="shadow-type">in</property>
                 <child>
                   <object class="GtkViewport" id="vp_commands">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkTreeView" id="tv_commands">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="model">tstore_commands</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="tvsel">
@@ -315,50 +314,83 @@
                 </child>
               </object>
               <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
             </child>
           </object>
           <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">1</property>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
             <property name="width">2</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>
   </template>
   <object class="GtkAboutDialog" id="dialog_about">
-    <property name="can_focus">False</property>
-    <property name="type_hint">dialog</property>
+    <property name="can-focus">False</property>
+    <property name="type-hint">dialog</property>
     <property name="deletable">False</property>
-    <property name="transient_for">StarcmdMainWindow</property>
-    <property name="program_name">Command Browser</property>
+    <property name="transient-for">StarcmdMainWindow</property>
+    <property name="program-name">Command Browser</property>
     <property name="version">0.0.1</property>
     <property name="copyright" translatable="yes">(c) 2021, h010dev (mohamedalhussein.com)</property>
     <property name="comments" translatable="yes">A command browser application developed with GTK+ 3.</property>
     <property name="website">https://github.com/h010dev/starcmd</property>
-    <property name="website_label" translatable="yes">View Source Code</property>
+    <property name="website-label" translatable="yes">View Source Code</property>
     <property name="authors">Mohamed Al-Hussein</property>
-    <property name="logo">usr/share/icons/hicolor/scalable/apps/org.h010dev.StarCMD-logo.png</property>
-    <property name="license_type">gpl-3-0-only</property>
+    <property name="logo-icon-name">image-missing</property>
+    <property name="license-type">gpl-3-0-only</property>
     <signal name="response" handler="on_dialog_about_response" object="StarcmdMainWindow" swapped="no"/>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox">
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <placeholder/>
             </child>
@@ -366,8 +398,8 @@
               <object class="GtkButton" id="btn_close">
                 <property name="label" translatable="yes">Close</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -392,36 +424,33 @@
     </action-widgets>
   </object>
   <object class="GtkDialog" id="dialog_delete_command">
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="title" translatable="yes">Attention</property>
     <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="urgency_hint">True</property>
+    <property name="type-hint">dialog</property>
+    <property name="urgency-hint">True</property>
     <property name="deletable">False</property>
-    <property name="transient_for">StarcmdMainWindow</property>
+    <property name="transient-for">StarcmdMainWindow</property>
     <signal name="response" handler="on_dialog_delete_command_response" object="StarcmdMainWindow" swapped="no"/>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox">
-        <property name="can_focus">False</property>
-        <property name="margin_left">15</property>
-        <property name="margin_right">15</property>
-        <property name="margin_top">15</property>
-        <property name="margin_bottom">15</property>
+        <property name="can-focus">False</property>
+        <property name="margin-left">15</property>
+        <property name="margin-right">15</property>
+        <property name="margin-top">15</property>
+        <property name="margin-bottom">15</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="btn_cancel">
                 <property name="label" translatable="yes">Cancel</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -433,8 +462,8 @@
               <object class="GtkButton" id="btn_ok">
                 <property name="label" translatable="yes">OK</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -450,15 +479,16 @@
           </packing>
         </child>
         <child>
+          <!-- n-columns=3 n-rows=3 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Delete this command?</property>
                 <attributes>
                   <attribute name="style" value="normal"/>
@@ -466,9 +496,33 @@
                 </attributes>
               </object>
               <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -485,46 +539,45 @@
     </action-widgets>
   </object>
   <object class="GtkWindow" id="window_tutorial">
-    <property name="can_focus">False</property>
-    <property name="default_width">440</property>
-    <property name="default_height">250</property>
-    <property name="transient_for">StarcmdMainWindow</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
+    <property name="can-focus">False</property>
+    <property name="default-width">440</property>
+    <property name="default-height">250</property>
+    <property name="transient-for">StarcmdMainWindow</property>
     <child>
+      <!-- n-columns=3 n-rows=3 -->
       <object class="GtkGrid">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkStack" id="stack_tutorial">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="stack_page_intro">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="margin_left">15</property>
-                            <property name="margin_right">15</property>
-                            <property name="margin_top">15</property>
-                            <property name="margin_bottom">15</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-left">15</property>
+                            <property name="margin-right">15</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">15</property>
                             <property name="label" translatable="yes">Welcome to STARCMD Command Browser! 
 
 A place to store instructions on how to use commands so that you can access them anytime you need.
@@ -538,9 +591,33 @@ This quick tutorial will walk you through the basic functions of STARCMD, and by
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -549,28 +626,29 @@ This quick tutorial will walk you through the basic functions of STARCMD, and by
               </packing>
             </child>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="stack_page_addcmd">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="margin_left">15</property>
-                            <property name="margin_right">15</property>
-                            <property name="margin_top">15</property>
-                            <property name="margin_bottom">15</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-left">15</property>
+                            <property name="margin-right">15</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">15</property>
                             <property name="label" translatable="yes">To add a new command, click the new-file button on the upper right-hand side of the main window.
 
 A new window will pop up, asking you for information to fill in before saving the command.
@@ -588,9 +666,33 @@ To see the changes on the app window, click the refresh button.</property>
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -600,28 +702,29 @@ To see the changes on the app window, click the refresh button.</property>
               </packing>
             </child>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="stack_page_addicon">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="margin_left">15</property>
-                            <property name="margin_right">15</property>
-                            <property name="margin_top">15</property>
-                            <property name="margin_bottom">15</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-left">15</property>
+                            <property name="margin-right">15</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">15</property>
                             <property name="label" translatable="yes">You may have realized that while filling out the new command form, you had the option to add an icon for your command.
 
 Clicking the browse button will open your computer's file browser and allow you to select a photo of your choosing. 
@@ -635,9 +738,33 @@ Alternatively, you can download an image to use as your icon by clicking the dow
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -647,28 +774,29 @@ Alternatively, you can download an image to use as your icon by clicking the dow
               </packing>
             </child>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="stack_page_editcmd">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="margin_left">15</property>
-                            <property name="margin_right">15</property>
-                            <property name="margin_top">15</property>
-                            <property name="margin_bottom">15</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-left">15</property>
+                            <property name="margin-right">15</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">15</property>
                             <property name="label" translatable="yes">To edit an existing command, click on the command's name field in the main window. The edit button will be highlighted once you do so, and you can click that button to edit your command.
 
 This window is identical to the add command window, so follow the same steps, and click apply to save the changes.
@@ -682,9 +810,33 @@ To see the changes on the app window, click the refresh button.</property>
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -694,28 +846,29 @@ To see the changes on the app window, click the refresh button.</property>
               </packing>
             </child>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="stack_page_delcmd">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="margin_left">15</property>
-                            <property name="margin_right">15</property>
-                            <property name="margin_top">15</property>
-                            <property name="margin_bottom">15</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-left">15</property>
+                            <property name="margin-right">15</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">15</property>
                             <property name="label" translatable="yes">To delete an existing command, click on the command's name field in the main window. The delete button will be highlighted once you do so.
 
 The app will ask you if you are sure to proceed, and upon confirming it will proceed to delete the command for you.</property>
@@ -727,9 +880,33 @@ The app will ask you if you are sure to proceed, and upon confirming it will pro
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -739,54 +916,77 @@ The app will ask you if you are sure to proceed, and upon confirming it will pro
               </packing>
             </child>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="stack_page_morehelp">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
+                          <!-- n-columns=3 n-rows=3 -->
                           <object class="GtkGrid">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="margin_left">15</property>
-                                <property name="margin_right">15</property>
-                                <property name="margin_top">15</property>
-                                <property name="margin_bottom">15</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">15</property>
+                                <property name="margin-right">15</property>
+                                <property name="margin-top">15</property>
+                                <property name="margin-bottom">15</property>
                                 <property name="label" translatable="yes">To get more help, visit STARCMD's main page at:</property>
                                 <property name="justify">center</property>
                                 <property name="wrap">True</property>
                               </object>
                               <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLinkButton" id="linkbtn_app">
                                 <property name="label" translatable="yes">button</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
                                 <property name="relief">none</property>
                                 <property name="uri">https://www.github.com/h010dev/starcmd</property>
                               </object>
                               <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">1</property>
                               </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                           </object>
                         </child>
@@ -794,9 +994,33 @@ The app will ask you if you are sure to proceed, and upon confirming it will pro
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -807,20 +1031,41 @@ The app will ask you if you are sure to proceed, and upon confirming it will pro
             </child>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">0</property>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkStackSidebar" id="sidebar_tutorial">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="stack">stack_tutorial</property>
           </object>
           <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>
