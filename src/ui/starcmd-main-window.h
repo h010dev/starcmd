@@ -62,7 +62,6 @@ typedef enum
     KEY_REFS,
     KEY_TAGS,
     KEY_DATEMOD,
-    KEY_ICON,
     KEY_LAST_ROW
 } RowType;
 
@@ -75,8 +74,7 @@ static const char *const keys[] = {
     [KEY_EXAMPLES] = "Example(s)",
     [KEY_REFS]     = "Reference(s)",
     [KEY_TAGS]     = "Tag(s)",
-    [KEY_DATEMOD]  = "Last Modified",
-    [KEY_ICON]     = "Icon Path"
+    [KEY_DATEMOD]  = "Last Modified"
 };
 
 /* MAIN WINDOW PROTOTYPES */

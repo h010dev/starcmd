@@ -34,7 +34,6 @@ struct CommandData
     char *examples;
     char *references;
     char *tags;
-    char *icon_path;
     char *datemod;
 };
 

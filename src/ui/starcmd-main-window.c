@@ -332,10 +332,6 @@ load_commands (StarcmdMainWindow *self)
         gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
         gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_DATEMOD], -1);
         gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].datemod, -1);
-
-        gtk_tree_store_append (priv->tstore_commands, &iter_child, &iter);
-        gtk_tree_store_set (priv->tstore_commands, &iter_child, KEY, keys[KEY_ICON], -1);
-        gtk_tree_store_set (priv->tstore_commands, &iter_child, VALUE, all_data[i].icon_path, -1);
     }
     starcmd_db_close (&db);
 

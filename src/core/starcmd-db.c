@@ -117,7 +117,7 @@ starcmd_db_load (sqlite3 **db, char *name, struct CommandData **data)
     sqlite3_stmt *res;
     char         *sql;
 
-    sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod, icon "
+    sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod "
           "FROM commands "
           "WHERE name = ?";
 
@@ -141,7 +141,6 @@ starcmd_db_load (sqlite3 **db, char *name, struct CommandData **data)
         (*data)->references = (char *) strdup ((const char *) sqlite3_column_text (res, 6));
         (*data)->tags = (char *) strdup ((const char *) sqlite3_column_text (res, 7));
         (*data)->datemod = (char *) strdup ((const char *) sqlite3_column_text (res, 8));
-        (*data)->icon_path = (char *) strdup ((const char *) sqlite3_column_text (res, 9));
     }
     sqlite3_finalize (res);
 
@@ -155,7 +154,7 @@ starcmd_db_loadall (sqlite3 **db, struct CommandData data[], int count)
     sqlite3_stmt *res;
     char         *sql;
 
-    sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod, icon "
+    sql = "SELECT name, platform, os, description, command, examples, refs, tags, datemod "
           "FROM commands "
           "ORDER BY name ASC;";
 
@@ -177,7 +176,6 @@ starcmd_db_loadall (sqlite3 **db, struct CommandData data[], int count)
         data[i].references = (char *) strdup ((const char *) sqlite3_column_text (res, 6));
         data[i].tags = (char *) strdup ((const char *) sqlite3_column_text (res, 7));
         data[i].datemod = (char *) strdup ((const char *) sqlite3_column_text (res, 8));
-        data[i].icon_path = (char *) strdup ((const char *) sqlite3_column_text (res, 9));
 
         i++;
     }
@@ -194,11 +192,11 @@ starcmd_db_save (sqlite3 **db, char *name, struct CommandData *data)
     char         *sql;
 
     if (name == NULL)
-        sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, tags, datemod, icon)"
-              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        sql = "INSERT INTO COMMANDS (name, platform, os, description, command, examples, refs, tags, datemod) "
+              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     else
         sql = "UPDATE commands " 
-              "SET name = ?, platform = ?, os = ?, description = ?, command = ?, examples = ?, refs = ?, tags = ?, datemod = ?, icon = ? "
+              "SET name = ?, platform = ?, os = ?, description = ?, command = ?, examples = ?, refs = ?, tags = ?, datemod = ? " 
               "WHERE name = ?";
 
     if ( (rc = sqlite3_prepare_v2 (*db, sql, -1, &res, 0)) != SQLITE_OK)
@@ -216,10 +214,9 @@ starcmd_db_save (sqlite3 **db, char *name, struct CommandData *data)
     sqlite3_bind_text (res, 7, data->references, strlen (data->references), SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 8, data->tags, strlen (data->tags), SQLITE_TRANSIENT);
     sqlite3_bind_text (res, 9, data->datemod, strlen (data->datemod), SQLITE_TRANSIENT);
-    sqlite3_bind_text (res, 10, data->icon_path, strlen (data->icon_path), SQLITE_TRANSIENT);
 
     if (name != NULL)
-        sqlite3_bind_text (res, 11, name, strlen (name), SQLITE_TRANSIENT);
+        sqlite3_bind_text (res, 10, name, strlen (name), SQLITE_TRANSIENT);
 
     sqlite3_step (res);
     sqlite3_finalize (res);

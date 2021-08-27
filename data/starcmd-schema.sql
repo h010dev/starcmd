@@ -11,6 +11,5 @@ CREATE TABLE commands (
   refs        varchar(4096) null,
   tags        varchar(255)  null,
   datemod     varchar(256)  not null,
-  icon        varchar(255)  null,
   fav         int           default 0
 );
