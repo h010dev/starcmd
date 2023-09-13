@@ -60,7 +60,3 @@ sudo make uninstall
 # License
 
 Distributed under the GPLv3.0 License. See `LICENSE` for more information.
-
-# Contact
-
-Email: mohamed.n.al.hussein@gmail.com
